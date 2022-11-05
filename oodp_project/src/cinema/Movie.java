@@ -19,6 +19,19 @@ public class Movie {
 		return id;
 	}
 
+	public Movie(int id, String title, String typeOfMovie, String sypnosis, String director, float overallRating,
+			cinema.Movie.showStatus showStatus, cinema.Movie.ageRating ageRating) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.typeOfMovie = typeOfMovie;
+		this.sypnosis = sypnosis;
+		this.director = director;
+		this.overallRating = overallRating;
+		this.showStatus = showStatus;
+		this.ageRating = ageRating;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}

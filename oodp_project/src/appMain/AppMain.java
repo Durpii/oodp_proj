@@ -13,8 +13,10 @@ public class AppMain {
 		//lc.login("Jenna", "admin2");
 		
 		AdminController ac = new AdminController();
-		ac.createMovie(01, "Shrek", "Comedy", "Shrek is love, Shrek is life", "Andrew Adamson / Vicky Jensen", 5, ShowStatus.END_OF_SHOWING, AgeRating.PG13);
-		ac.createMovie(02, "Up", "Comedy", "House on Mountain", "Pete Docter", 5, ShowStatus.END_OF_SHOWING, AgeRating.PG13);
+		//ac.createMovie(1, "Shrek", "Comedy", "Shrek is love, Shrek is life", "Andrew Adamson / Vicky Jensen", 5, ShowStatus.END_OF_SHOWING, AgeRating.PG13);
+		//ac.createMovie(2, "Up", "Comedy", "House on Mountain", "Pete Docter", 5, ShowStatus.END_OF_SHOWING, AgeRating.PG13);
+		
+		ac.removeMovie(1);
 	}
 
 }

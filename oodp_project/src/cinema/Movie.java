@@ -2,14 +2,11 @@ package cinema;
 
 public class Movie {
 	
-	enum showStatus{ COMING_SOON, PREVIEW, NOW_SHOWING, END_OF_SHOWING; }
-	enum ageRating{ G, PG, PG13, NC16, M18, R21; }
-	
 	private int id;
 	private String title, typeOfMovie, sypnosis, director;
 	private float overallRating = 0;
-	private showStatus showStatus;
-	private ageRating ageRating;
+	private ShowStatus showStatus;
+	private AgeRating ageRating;
 	
 	public Movie() {
 		//empty constructor
@@ -20,7 +17,7 @@ public class Movie {
 	}
 
 	public Movie(int id, String title, String typeOfMovie, String sypnosis, String director, float overallRating,
-			cinema.Movie.showStatus showStatus, cinema.Movie.ageRating ageRating) {
+			ShowStatus showStatus, AgeRating ageRating) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -76,19 +73,19 @@ public class Movie {
 		this.overallRating = overallRating;
 	}
 
-	public showStatus getShowStatus() {
+	public ShowStatus getShowStatus() {
 		return showStatus;
 	}
 	
-	public void setShowStatus(showStatus showStatus) {
+	public void setShowStatus(ShowStatus showStatus) {
 		this.showStatus = showStatus;
 	}
 	
-	public ageRating getAgeRating() {
+	public AgeRating getAgeRating() {
 		return ageRating;
 	}
 
-	public void setAgeRating(ageRating ageRating) {
+	public void setAgeRating(AgeRating ageRating) {
 		this.ageRating = ageRating;
 	}
 	

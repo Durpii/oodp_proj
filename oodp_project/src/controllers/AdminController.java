@@ -32,17 +32,44 @@ public class AdminController {
 		try {
 			File moviesFile = new File("movies.txt");
 			FileWriter fileWriter = new FileWriter("movies.txt", true);
-			//TODO: prevent duplicate movie entries
 			
 			if (moviesFile.createNewFile()) {
 				System.out.println("File created: " + moviesFile.getName());
 			}
 			//add movie to file
+			//prevent duplicate movie entry ids
+			BufferedReader reader = new BufferedReader(new FileReader(moviesFile));
+			String currentLine;
+			
+			
+			while((currentLine = reader.readLine()) != null) {
+				String trimmedLine = currentLine.trim();
+				
+				//check if movie with same ID exists
+				String movieId = "$ID:" + m.getId() + "@";
+				if (trimmedLine.contains(movieId)) {
+					System.out.println("Movie with ID " + m.getId() + " already exists, unable to add");
+					reader.close();
+					fileWriter.close();
+					return;
+				}
+				
+				//check if movie with same title exists
+				String movieTitle = "@" + m.getTitle() + "@";
+				if (trimmedLine.contains(movieTitle)) {
+					System.out.println("Movie with name " + m.getTitle() + " already exists, unable to add");
+					reader.close();
+					fileWriter.close();
+					return;
+				}
+			}
+					
 			System.out.println("Adding movie " + title + " to movies file...");
 			fileWriter.write("$ID:" + m.getId() + "@@@" + m.getTitle() + "@@@" + m.getTypeOfMovie() +
 						"@@@" + m.getSypnosis() + "@@@" + m.getDirector() + 
 						"@@@" + m.getOverallRating() + "@@@" + m.getShowStatus() + "@@@" + m.getAgeRating() + "\n");
 			fileWriter.close();
+			reader.close();
 		} catch (IOException e) {
 			System.out.println("Error adding movie, please try again");
 			e.printStackTrace();
@@ -58,7 +85,7 @@ public class AdminController {
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
 			
-			String lineToRemove = "$ID:" + id;
+			String lineToRemove = "$ID:" + id + "@";
 			String currentLine;
 			
 			while ((currentLine = reader.readLine()) != null) {

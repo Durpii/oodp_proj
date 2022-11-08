@@ -36,11 +36,12 @@ public class BookingController {
 				String typeOfMovie = data[2];
 				String sypnosis = data[3];
 				String director = data[4];
-				float overallRating = Float.valueOf(data[5]);
-				ShowStatus showStatus = ShowStatus.valueOf(data[6]);
-				AgeRating ageRating = AgeRating.valueOf(data[7]);
+				String[] casts = data[5].split("\\|");
+				float overallRating = Float.valueOf(data[6]);
+				ShowStatus showStatus = ShowStatus.valueOf(data[7]);
+				AgeRating ageRating = AgeRating.valueOf(data[8]);
 				if(title.toLowerCase().contains(query.toLowerCase())) {
-					movies.add(new Movie(id, title, typeOfMovie, sypnosis, director, overallRating, showStatus, ageRating));
+					movies.add(new Movie(id, title, typeOfMovie, sypnosis, director, casts, overallRating, showStatus, ageRating));
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -52,7 +53,7 @@ public class BookingController {
 		return movies;
 	}
 	
-	public void viewDetails(Movie movie) {
+	public void viewDetails(Movie m) {
 		System.out.printf(
 				"==============================\n"
 				+ "%s\n"
@@ -65,14 +66,14 @@ public class BookingController {
 				+ "DIRECTOR: %s\n"
 				+ "==============================\n",
 				
-				movie.getTitle(),
-				movie.getSypnosis(),
-				movie.getTypeOfMovie(),
-				movie.getAgeRating(),
-				movie.getOverallRating(),
-				movie.getShowStatus().toString().replace("_", " "),
-				"cast?",
-				movie.getDirector()
+				m.getTitle(),
+				m.getSypnosis(),
+				m.getTypeOfMovie(),
+				m.getAgeRating(),
+				m.getOverallRating(),
+				m.getShowStatus().toString().replace("_", " "),
+				String.join(", ", m.getCasts()),
+				m.getDirector()
 				);		
 	}
 	

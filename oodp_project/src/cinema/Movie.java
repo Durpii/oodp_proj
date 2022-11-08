@@ -4,10 +4,10 @@ public class Movie {
 	
 	private int id;
 	private String title, typeOfMovie, sypnosis, director;
+	private String[] casts;
 	private float overallRating = 0;
 	private ShowStatus showStatus;
 	private AgeRating ageRating;
-	private String[] casts;
 	
 	public Movie() {
 		//empty constructor
@@ -17,7 +17,7 @@ public class Movie {
 		return id;
 	}
 
-	public Movie(int id, String title, String typeOfMovie, String sypnosis, String director, float overallRating,
+	public Movie(int id, String title, String typeOfMovie, String sypnosis, String director, String[] casts, float overallRating,
 			ShowStatus showStatus, AgeRating ageRating) {
 		super();
 		this.id = id;
@@ -25,6 +25,7 @@ public class Movie {
 		this.typeOfMovie = typeOfMovie;
 		this.sypnosis = sypnosis;
 		this.director = director;
+		this.casts = casts;
 		this.overallRating = overallRating;
 		this.showStatus = showStatus;
 		this.ageRating = ageRating;
@@ -89,5 +90,12 @@ public class Movie {
 	public void setAgeRating(AgeRating ageRating) {
 		this.ageRating = ageRating;
 	}
-	
+
+	public String[] getCasts() {
+		return casts;
+	}
+
+	public void setCasts(String[] casts) {
+		this.casts = casts;
+	}
 }

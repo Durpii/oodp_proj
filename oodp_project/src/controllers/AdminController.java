@@ -19,12 +19,17 @@ public class AdminController {
 	}
 	
 	public void createMovie(int id, String title, String typeOfMovie,
-			String synopsis, String director, 
+			String synopsis, String director, String[] casts,
 			float overallRating, ShowStatus showStatus,  AgeRating ageRating) {
+		
+		if(casts.length < 2) {
+			System.out.println("Number of casts cannot be less than 2");
+			return;
+		}
 		
 		//create new movie object
 		Movie m = new Movie(id, title, typeOfMovie, 
-				synopsis, director,
+				synopsis, director, casts,
 				overallRating, showStatus, ageRating);
 		
 		
@@ -66,7 +71,7 @@ public class AdminController {
 					
 			System.out.println("Adding movie " + title + " to movies file...");
 			fileWriter.write("$ID:" + m.getId() + "@@@" + m.getTitle() + "@@@" + m.getTypeOfMovie() +
-						"@@@" + m.getSypnosis() + "@@@" + m.getDirector() + 
+						"@@@" + m.getSypnosis() + "@@@" + m.getDirector() + "@@@" + String.join("|", m.getCasts()) +
 						"@@@" + m.getOverallRating() + "@@@" + m.getShowStatus() + "@@@" + m.getAgeRating() + "\n");
 			fileWriter.close();
 			reader.close();

@@ -70,6 +70,9 @@ public class AdminController {
 						"@@@" + m.getOverallRating() + "@@@" + m.getShowStatus() + "@@@" + m.getAgeRating() + "\n");
 			fileWriter.close();
 			reader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found!");
+			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("Error adding movie, please try again");
 			e.printStackTrace();
@@ -102,7 +105,11 @@ public class AdminController {
 			inputFile.delete();
 			tempFile.renameTo(inputFile);
 			System.out.println("Successfully removed movie");
-		} catch (IOException e) {
+		} catch(FileNotFoundException e) {
+			System.out.println("File not found!");
+			e.printStackTrace();
+		}
+		catch (IOException e) {
 			System.out.println("Error removing movie");
 			e.printStackTrace();
 		}

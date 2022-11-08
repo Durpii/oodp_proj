@@ -1,7 +1,10 @@
 package controllers;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class LoginController {
@@ -19,58 +22,38 @@ public class LoginController {
 	public void login(String name, String password) {
 		//check a text file if name exists, if exists, continue to check password
 		try {
-			File nameFile = new File("usernames.txt");
-			File passwordFile = new File("passwords.txt");
+			File inputFile = new File("accounts.txt");
 			
-			Scanner nameSc = new Scanner(nameFile);
-			Scanner passwordSc = new Scanner(passwordFile);
-			int lineNo = 0;
+			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+			String currentLine;
+			String loginName = name + "@";
+			String loginPass = "@" + password;
 			
-			while(nameSc.hasNextLine()) {
-				String uname = nameSc.nextLine();
-				lineNo++;
-				if (!nameSc.hasNextLine()) {
-					System.out.println("Username not found, please enter username again!");
-					break;
-				}
+			while((currentLine = reader.readLine()) != null) {
+				String trimmedLine = currentLine.trim();
 				
-				if (name.equals(uname)) {
-					System.out.println("Username " + name + " found on line " + lineNo);
-					break;
-				}
-			}
-			
-			//check if password exists, if it does, login, else throw out error
-			int passwordLineNo = 0;
-			while(nameSc.hasNextLine()) {
-				String pword = passwordSc.nextLine();
-				passwordLineNo++;
-				if (!passwordSc.hasNextLine()) {
-					System.out.println("Password not found, please enter password again!");
-					break;
-				}
-				
-				if (password.equals(pword) && lineNo != passwordLineNo) {
-					System.out.println("Password " + password + " found on line " + passwordLineNo);
-					System.out.println("Password does not correspond with account");
-					System.out.println("Incorrect password, please try again");
-					break;
-				}
-				
-				if (password.equals(pword) && lineNo == passwordLineNo) {
-					System.out.println("Password " + password + " found on line " + passwordLineNo);
-					System.out.println("Username on line " + lineNo + " matches password on "
-							+ "line " + passwordLineNo);
-					System.out.println("Logging in...");
+				if (trimmedLine.contains(loginName) && trimmedLine.contains(loginPass)) {
+					System.out.println("Username " + name + " and " + password + " found");
+					System.out.println("Logged in as " + name);
 					this.isLoggedIn = true;
-					break;
+					reader.close();
+					return;
 				}
+				
+				if (!trimmedLine.contains(loginName) && !trimmedLine.contains(loginPass)) {
+					continue;
+				} 			
+
 			}
-			nameSc.close();
-			passwordSc.close();
+			
+			System.out.println("Incorrect username or password for user");
+			reader.close();
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("File is not found!");
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

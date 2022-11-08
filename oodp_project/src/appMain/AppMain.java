@@ -14,8 +14,8 @@ public class AppMain {
 
 	public static void main(String[] args) {
 		//App launching point
-		//LoginController lc = new LoginController();
-		//lc.login("Jenna", "admin2");
+		LoginController lc = new LoginController();
+		lc.login("Jenna", "admin1");
 		
 		/*AdminController ac = new AdminController();
 		ac.createMovie(1, "Shrek", "Comedy", "Shrek is love, Shrek is life", "Andrew Adamson / Vicky Jensen", 5, ShowStatus.END_OF_SHOWING, AgeRating.PG13);
@@ -30,29 +30,21 @@ public class AppMain {
 		// maybe put into IOController or something
 		
 		
-		Scanner sc = new Scanner(System.in);
-		
-		ArrayList<Movie> result = new ArrayList<Movie>();
-		while(result.isEmpty()) {
-			System.out.print("Enter Search Query: ");
-			String searchQuery = sc.next().trim();
-			result.addAll(bc.search(searchQuery));
-		}
-		
-		int i = 1;
-		for(Movie m : result) {
-			System.out.println(i++ + ". " + m.getTitle());
-		}
-		
-		// TODO
-		String choice = "";
-		while(!choice.equals("q")) {
-			System.out.print("Select a movie or enter q to return: ");
-			choice = sc.next().trim();
-			if(choice.matches("\\d+") && Integer.valueOf(choice) <= result.size()) {
-				bc.viewDetails(result.get(Integer.valueOf(choice)-1));
-			}
-		}
+		/*
+		 * Scanner sc = new Scanner(System.in);
+		 * 
+		 * ArrayList<Movie> result = new ArrayList<Movie>(); while(result.isEmpty()) {
+		 * System.out.print("Enter Search Query: "); String searchQuery =
+		 * sc.next().trim(); result.addAll(bc.search(searchQuery)); }
+		 * 
+		 * int i = 1; for(Movie m : result) { System.out.println(i++ + ". " +
+		 * m.getTitle()); }
+		 * 
+		 * // TODO String choice = ""; while(!choice.equals("q")) {
+		 * System.out.print("Select a movie or enter q to return: "); choice =
+		 * sc.next().trim(); if(choice.matches("\\d+") && Integer.valueOf(choice) <=
+		 * result.size()) { bc.viewDetails(result.get(Integer.valueOf(choice)-1)); } }
+		 */
 		
 		//ac.removeMovie(1);
 	}

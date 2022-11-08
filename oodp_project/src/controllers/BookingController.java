@@ -13,35 +13,39 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
+import cinema.AgeRating;
 import cinema.Movie;
+import cinema.ShowStatus;
 import cinema.Ticket;
 
 public class BookingController {
-	public final String SEPARATOR = "|";
+	public BookingController() {}
+	
+	public final String SEPARATOR = "@@@";
 		
-	public ArrayList<Movie> search() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter search query");
-		String query = sc.next();
-		
+	public ArrayList<Movie> search(String query) {
+		Scanner sc = null;
 		ArrayList<Movie> movies = new ArrayList<Movie>();
 		try {
 			sc = new Scanner(new FileInputStream("movies.txt"));
 			sc.useDelimiter(SEPARATOR);
 			while (sc.hasNextLine()){
 				String[] data = sc.nextLine().split(SEPARATOR);
-				int id = Integer.valueOf(data[0]);
+				int id = Integer.valueOf(data[0].split(":")[1]);
 				String title = data[1];
 				String typeOfMovie = data[2];
 				String sypnosis = data[3];
 				String director = data[4];
 				float overallRating = Float.valueOf(data[5]);
-				if(title.matches(query)) {
-					movies.add(new Movie(id, title, typeOfMovie, sypnosis, director, overallRating, null, null));
+				ShowStatus showStatus = ShowStatus.valueOf(data[6]);
+				AgeRating ageRating = AgeRating.valueOf(data[7]);
+				if(title.toLowerCase().contains(query.toLowerCase())) {
+					movies.add(new Movie(id, title, typeOfMovie, sypnosis, director, overallRating, showStatus, ageRating));
 				}
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return null;
 		} finally {
 			sc.close();
 		}
@@ -49,7 +53,27 @@ public class BookingController {
 	}
 	
 	public void viewDetails(Movie movie) {
-		System.out.println();
+		System.out.printf(
+				"==============================\n"
+				+ "%s\n"
+				+ "SYNOPSIS: %s\n"
+				+ "GENRE: %s\n"
+				+ "AGE RESTRICTION: %s\n"
+				+ "OVERALL RATING: %s/5.0\n"
+				+ "SHOWS STATUS: %s\n"
+				+ "CAST: %s\n"
+				+ "DIRECTOR: %s\n"
+				+ "==============================\n",
+				
+				movie.getTitle(),
+				movie.getSypnosis(),
+				movie.getTypeOfMovie(),
+				movie.getAgeRating(),
+				movie.getOverallRating(),
+				movie.getShowStatus().toString().replace("_", " "),
+				"cast?",
+				movie.getDirector()
+				);		
 	}
 	
 	public void book(int movieId, int seatNum, Date dateTime) {

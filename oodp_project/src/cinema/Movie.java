@@ -7,6 +7,7 @@ public class Movie {
 	private float overallRating = 0;
 	private ShowStatus showStatus;
 	private AgeRating ageRating;
+	private String[] casts;
 	
 	public Movie() {
 		//empty constructor

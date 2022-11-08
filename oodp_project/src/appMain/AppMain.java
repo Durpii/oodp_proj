@@ -45,8 +45,8 @@ public class AppMain {
 		}
 		
 		// TODO
-		String choice = null;
-		while(choice != "q") {
+		String choice = "";
+		while(!choice.equals("q")) {
 			System.out.print("Select a movie or enter q to return: ");
 			choice = sc.next().trim();
 			if(choice.matches("\\d+") && Integer.valueOf(choice) <= result.size()) {

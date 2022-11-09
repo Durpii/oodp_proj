@@ -1,19 +1,24 @@
 package users;
 
 public class Staff extends User{
-	private int staffNo;
 	private String password;
 	
 	public Staff() {
 		
 	}
 	
-	public Staff(int age, String name, int staffNo) {
+	public Staff(int userId, int age, String name) {
+		this.userId = userId;
 		this.age = age;
 		this.name = name;
-		this.staffNo = staffNo;
 	}
-	
-	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}		
 
 }

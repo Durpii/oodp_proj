@@ -35,7 +35,7 @@ public class BookingUI {
 		// TODO
 		String choice = null;
 		while(!choice.equals("q")) {
-			System.out.print("Select a movie or enter q to return: ");
+			System.out.printf("Select option (1-%d) or enter q to return: ", result.size());
 			choice = sc.next().trim();
 			if(choice.matches("\\d+") && Integer.valueOf(choice) <= result.size()) {
 				viewDetails(result.get(Integer.valueOf(choice)-1));

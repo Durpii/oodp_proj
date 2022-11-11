@@ -7,10 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+import users.User;
+
 public class LoginController {
 	
 	public final String SEPARATOR = "@@@";
 	private boolean isLoggedIn = false;
+	private User userInfo = null;
 	
 	public LoginController() {
 		
@@ -80,7 +83,10 @@ public class LoginController {
 		} finally {
 			sc.close();
 		}
-		
-		
+	}
+	
+	public void logout() {
+		isLoggedIn = false;
+		userInfo = null;
 	}
 }

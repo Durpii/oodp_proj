@@ -9,13 +9,15 @@ import java.util.Scanner;
 import cinema.Movie;
 import cinema.Ticket;
 import controllers.BookingController;
+import controllers.LoginController;
 
 public class BookingUI {
 	BookingController bc = new BookingController();
+	LoginController lc;
 	Scanner sc = new Scanner(System.in);
 	
-	public BookingUI() {
-		
+	public BookingUI(LoginController lc) {
+		this.lc = lc;
 	}
 	
 	public void searchMovie() {

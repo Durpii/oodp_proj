@@ -28,32 +28,33 @@ public class BookingController {
 	public ArrayList<Movie> search(String query) {
 		Scanner sc = null;
 		ArrayList<Movie> movies = new ArrayList<Movie>();
-		try {
-			sc = new Scanner(new FileInputStream("movies.txt"));
-			sc.useDelimiter(SEPARATOR);
-			while (sc.hasNextLine()){
-				Movie m = parseMovie(sc.nextLine());
-				if(m.getTitle().toLowerCase().contains(query.toLowerCase())) {
-					movies.add(m);
+		File file = new File("movies.txt");
+		if(file.exists()) {
+			try {
+				sc = new Scanner(new FileInputStream(file));
+				sc.useDelimiter(SEPARATOR);
+				while (sc.hasNextLine()){
+					Movie m = parseMovie(sc.nextLine());
+					if(m.getTitle().toLowerCase().contains(query.toLowerCase())) {
+						movies.add(m);
+					}
 				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				return null;
+			} finally {
+				sc.close();
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		} finally {
-			sc.close();
 		}
 		return movies;
 	}
-	
-	
 	
 	public void book(int userId, int cinemId, int movieId, int seatNum, Date dateTime) {
 		//Ticket ticket = new Ticket(userId, cinemId, movieId, seatNum, dateTime);
 		
 		File file = new File("tickets.txt");
 		PrintWriter out = null;
-		
+
 		try {
 			if(!file.exists()) {
 				file.createNewFile();
@@ -142,37 +143,43 @@ public class BookingController {
 	public ArrayList<Ticket> getBookingHistory(int userId) {
 		ArrayList<Ticket> history = new ArrayList<Ticket>();
 		Scanner sc = null;
-		try {
-			sc = new Scanner(new FileInputStream("tickets.txt"));
-			int count;
-			while (sc.hasNextLine()){
-				Ticket ticket = parseTicket(sc.nextLine());
-				if(ticket.getUserId() == userId) {
-					history.add(ticket);
+		File file = new File("tickets.txt");
+		if(file.exists()) {
+			try {
+				sc = new Scanner(new FileInputStream(file));
+				int count;
+				while (sc.hasNextLine()){
+					Ticket ticket = parseTicket(sc.nextLine());
+					if(ticket.getUserId() == userId) {
+						history.add(ticket);
+					}
 				}
+			} catch (FileNotFoundException | NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (FileNotFoundException | NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return history;
 	}
 	
 	public Movie getMovieById(int movieId) {
 		Scanner sc = null;
-		try {
-			sc = new Scanner(new FileInputStream("movies.txt"));
-			sc.useDelimiter(SEPARATOR);
-			while (sc.hasNextLine()){
-				Movie m = parseMovie(sc.nextLine());
-				if(m.getId() == movieId) {
-					return m;
+		File file = new File("movies.txt");
+		if(file.exists()) {
+			try {
+				sc = new Scanner(new FileInputStream(file));
+				sc.useDelimiter(SEPARATOR);
+				while (sc.hasNextLine()){
+					Movie m = parseMovie(sc.nextLine());
+					if(m.getId() == movieId) {
+						return m;
+					}
 				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} finally {
+				sc.close();
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			sc.close();
 		}
 		return null;
 	}
@@ -198,10 +205,10 @@ public class BookingController {
 		try {
 			ticket = new Ticket(
 					Integer.parseInt(data[0]),
-					Integer.parseInt(data[0]),
-					Integer.parseInt(data[0]),
-					Integer.parseInt(data[0]),
-					sdf.parse(data[0]));
+					Integer.parseInt(data[1]),
+					Integer.parseInt(data[2]),
+					Integer.parseInt(data[3]),
+					sdf.parse(data[4]));
 		} catch (NumberFormatException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

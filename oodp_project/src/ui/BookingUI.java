@@ -67,8 +67,8 @@ public class BookingUI {
 				);		
 	}
 	
-	public void viewBookingHistory(int userId) {
-		ArrayList<Ticket> tickets = bc.getBookingHistory(userId);
+	public void viewBookingHistory() {
+		ArrayList<Ticket> tickets = bc.getBookingHistory(movieGoer.getUserId());
 		
 		for(Ticket t : tickets) {
 			System.out.print("==============================");

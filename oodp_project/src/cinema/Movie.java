@@ -117,8 +117,15 @@ public class Movie {
 		}
 	}
 	
-	//function to add new review to the review arraylist
+	//function to add new review to the review ArrayList and update the overallRating variable
 	public void addNewReview(Review review) {
 		reviews.add(review);
+		
+		if(reviews.size() <= 1) {
+			overallRating = 0;
+		}
+		else {
+			updateOverallRating();
+		}
 	}
 }

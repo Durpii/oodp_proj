@@ -9,15 +9,15 @@ import java.util.Scanner;
 import cinema.Movie;
 import cinema.Ticket;
 import controllers.BookingController;
-import controllers.LoginController;
+import users.MovieGoer;
 
 public class BookingUI {
 	BookingController bc = new BookingController();
-	LoginController lc;
+	MovieGoer movieGoer;
 	Scanner sc = new Scanner(System.in);
 	
-	public BookingUI(LoginController lc) {
-		this.lc = lc;
+	public BookingUI(MovieGoer movieGoer) {
+		this.movieGoer = movieGoer;
 	}
 	
 	public void searchMovie() {
@@ -33,7 +33,7 @@ public class BookingUI {
 		}
 		
 		// TODO
-		String choice = null;
+		String choice = "";
 		while(!choice.equals("q")) {
 			System.out.printf("Select option (1-%d) or enter q to return: ", result.size());
 			choice = sc.next().trim();
@@ -96,7 +96,10 @@ public class BookingUI {
 		}
 	}
 	
-	void listTopFive() {
-		ArrayList<Movie> tickets = bc.getTopFive();
+	public void listTopFive() {
+		ArrayList<Movie> top = bc.getTopFive();
+		for(Movie m : top) {
+			viewDetails(m);
+		}
 	}	
 }

@@ -9,12 +9,14 @@ import cinema.ShowStatus;
 import controllers.AdminController;
 import controllers.BookingController;
 import controllers.LoginController;
+import ui.BookingUI;
+import users.MovieGoer;
 
 public class AppMain {
 
 	public static void main(String[] args) {
 		//App launching point
-		//LoginController lc = new LoginController();
+		LoginController lc = new LoginController();
 		//lc.adminLogin("Bob", "test2");
 		
 		AdminController ac = new AdminController();
@@ -24,7 +26,9 @@ public class AppMain {
 		ac.createMovie(4, "Shrek 2", "Duplicate test", "Dupe", "John Smith", new String[]{"Mike Myers", "Eddie Murphyey", "Cameron Diaz"}, 5, ShowStatus.END_OF_SHOWING, AgeRating.PG13);
 		//ac.removeMovie(3);
 		
-		
+		MovieGoer movieGoer = lc.userLogin("User1", "password1");
+		BookingUI bUI = new BookingUI(movieGoer);
+		bUI.listTopFive();
 		
 		//ac.removeMovie(1);
 	}

@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.StringJoiner;
@@ -31,18 +32,9 @@ public class BookingController {
 			sc = new Scanner(new FileInputStream("movies.txt"));
 			sc.useDelimiter(SEPARATOR);
 			while (sc.hasNextLine()){
-				String[] data = sc.nextLine().split(SEPARATOR);
-				int id = Integer.valueOf(data[0].split(":")[1]);
-				String title = data[1];
-				String typeOfMovie = data[2];
-				String sypnosis = data[3];
-				String director = data[4];
-				String[] casts = data[5].split("\\|");
-				float overallRating = Float.valueOf(data[6]);
-				ShowStatus showStatus = ShowStatus.valueOf(data[7]);
-				AgeRating ageRating = AgeRating.valueOf(data[8]);
-				if(title.toLowerCase().contains(query.toLowerCase())) {
-					movies.add(new Movie(id, title, typeOfMovie, sypnosis, director, casts, overallRating, showStatus, ageRating));
+				Movie m = parseMovie(sc.nextLine());
+				if(m.getTitle().toLowerCase().contains(query.toLowerCase())) {
+					movies.add(m);
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -57,7 +49,7 @@ public class BookingController {
 	
 	
 	public void book(int userId, int cinemId, int movieId, int seatNum, Date dateTime) {
-		Ticket ticket = new Ticket(userId, cinemId, movieId, seatNum, dateTime);
+		//Ticket ticket = new Ticket(userId, cinemId, movieId, seatNum, dateTime);
 		
 		File file = new File("tickets.txt");
 		PrintWriter out = null;
@@ -68,11 +60,11 @@ public class BookingController {
 			}
 			out = new PrintWriter(new FileWriter(file));
 			StringBuilder str = new StringBuilder(SEPARATOR);
-			str.append(ticket.getUserId());
-			str.append(ticket.getCinemId());
-			str.append(ticket.getMovieId());
-			str.append(ticket.getSeatNum());
-			str.append(ticket.getDateTime());
+			str.append(userId);
+			str.append(cinemId);
+			str.append(movieId);
+			str.append(seatNum);
+			str.append(dateTime);
 			out.println(str);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -126,7 +118,25 @@ public class BookingController {
 	}
 	
 	public ArrayList<Movie> getTopFive() {
-		return null;
+		ArrayList<Movie> m = new ArrayList<Movie>();
+		Scanner sc = null;
+		try {
+			sc = new Scanner(new FileInputStream("movies.txt"));
+			sc.useDelimiter(SEPARATOR);
+			while (sc.hasNextLine()){
+				m.add(parseMovie(sc.nextLine()));
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			sc.close();
+		}
+		m.sort(Comparator.comparing(Movie::getOverallRating).reversed());
+		if(m.size() < 5) {
+			return m;
+		} else {
+			return (ArrayList<Movie>) m.subList(0, 5);
+		}
 	}
 	
 	public ArrayList<Ticket> getBookingHistory(int userId) {
@@ -136,19 +146,12 @@ public class BookingController {
 			sc = new Scanner(new FileInputStream("tickets.txt"));
 			int count;
 			while (sc.hasNextLine()){
-				String[] data = sc.nextLine().split(SEPARATOR);
-				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy;HH:mm:ss");
-				Ticket ticket = new Ticket(
-						Integer.parseInt(data[0]),
-						Integer.parseInt(data[0]),
-						Integer.parseInt(data[0]),
-						Integer.parseInt(data[0]),
-						sdf.parse(data[0]));
+				Ticket ticket = parseTicket(sc.nextLine());
 				if(ticket.getUserId() == userId) {
 					history.add(ticket);
 				}
 			}
-		} catch (FileNotFoundException | NumberFormatException | ParseException e) {
+		} catch (FileNotFoundException | NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -161,18 +164,9 @@ public class BookingController {
 			sc = new Scanner(new FileInputStream("movies.txt"));
 			sc.useDelimiter(SEPARATOR);
 			while (sc.hasNextLine()){
-				String[] data = sc.nextLine().split(SEPARATOR);
-				int id = Integer.valueOf(data[0].split(":")[1]);
-				if(id == movieId) {
-					String title = data[1];
-					String typeOfMovie = data[2];
-					String sypnosis = data[3];
-					String director = data[4];
-					String[] casts = data[5].split("\\|");
-					float overallRating = Float.valueOf(data[6]);
-					ShowStatus showStatus = ShowStatus.valueOf(data[7]);
-					AgeRating ageRating = AgeRating.valueOf(data[8]);
-					return new Movie(id, title, typeOfMovie, sypnosis, director, casts, overallRating, showStatus, ageRating);
+				Movie m = parseMovie(sc.nextLine());
+				if(m.getId() == movieId) {
+					return m;
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -181,5 +175,37 @@ public class BookingController {
 			sc.close();
 		}
 		return null;
+	}
+	
+	public Movie parseMovie(String input) {
+		String[] data = input.split(SEPARATOR);
+		int id = Integer.valueOf(data[0].split(":")[1]);
+		String title = data[1];
+		String typeOfMovie = data[2];
+		String sypnosis = data[3];
+		String director = data[4];
+		String[] casts = data[5].split("\\|");
+		float overallRating = Float.valueOf(data[6]);
+		ShowStatus showStatus = ShowStatus.valueOf(data[7]);
+		AgeRating ageRating = AgeRating.valueOf(data[8]);
+		return new Movie(id, title, typeOfMovie, sypnosis, director, casts, overallRating, showStatus, ageRating);
+	}
+	
+	public Ticket parseTicket(String input) {
+		Ticket ticket = null;
+		String[] data = input.split(SEPARATOR);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy;HH:mm:ss");
+		try {
+			ticket = new Ticket(
+					Integer.parseInt(data[0]),
+					Integer.parseInt(data[0]),
+					Integer.parseInt(data[0]),
+					Integer.parseInt(data[0]),
+					sdf.parse(data[0]));
+		} catch (NumberFormatException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ticket;
 	}
 }

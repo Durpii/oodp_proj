@@ -4,9 +4,26 @@ public class Review {
 
 	private String reviewerName, review;
 	private int reviewRating = 0;
+	private Movie movie;
 	
 	public Review() {
 		//empty constructor
+	}
+	
+	public Review(Movie movie, String reviewerName, String review, int reviewRating) {
+		if(reviewRating > 5) {
+			this.reviewRating = 5;
+		}
+		else if(reviewRating < 1) {
+			this.reviewRating = 1;
+		}
+		else {
+			this.reviewRating = reviewRating;
+		}
+		
+		this.movie = movie;
+		this.reviewerName = reviewerName;
+		this.review = review;
 	}
 
 	public String getReviewerName() {

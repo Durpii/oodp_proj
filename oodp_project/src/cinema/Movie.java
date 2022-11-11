@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Movie {
 	
-	private int id, count;
+	private int id;
 	private String title, typeOfMovie, synopsis, director;
 	private String[] casts;
 	private float overallRating = 0;
@@ -108,6 +108,7 @@ public class Movie {
 			//do nothing because overall rating is already 0
 		}
 		else {
+			int count;
 			overallRating = 0;
 			for(count = 0; count<reviews.size(); count++) {
 				overallRating += reviews.get(count).getReviewRating();

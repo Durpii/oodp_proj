@@ -72,5 +72,47 @@ public class ReviewController {
 		}
 				
 	}
+	
+	public void displayReview() {
+		File inputFile = new File("reviews.txt");
+		
+		BufferedReader reader = null;
+		
+		try {
+			reader = new BufferedReader(new FileReader(inputFile));
+			
+			String currentLine;
+			
+			while ((currentLine = reader.readLine()) != null) {
+				//trim newline
+				String trimmedLine = currentLine.trim();
+				
+				String[] data = trimmedLine.split(SEPARATOR);
+				int dataUid = Integer.valueOf(data[0].split(":")[1]);
+				int dataMovieId = Integer.valueOf(data[1]);
+				int dataRating = Integer.valueOf(data[2]);
+				String dataReview = data[3];
+				
+				if(dataMovieId != movie.getId()) {
+					continue;
+				}
+				else {
+					System.out.println("User ID:" + dataUid + "\nRating:" + dataRating + "\nReview:" + dataReview);
+				}
+				
+			}
+			
+			reader.close();
+		}
+		catch(FileNotFoundException e) {
+			System.out.println("File not found!");
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			System.out.println("Error removing movie");
+			e.printStackTrace();	
+		}
+
+	}
 
 }

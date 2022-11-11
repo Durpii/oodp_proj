@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -97,7 +96,7 @@ public class ReviewController {
 					continue;
 				}
 				else {
-					System.out.println("User ID:" + dataUid + "\nRating:" + dataRating + "\nReview:" + dataReview);
+					System.out.println("User ID:" + dataUid + "\n" + "Rating:" + dataRating + "\n" + "Review:" + dataReview);
 				}
 				
 			}

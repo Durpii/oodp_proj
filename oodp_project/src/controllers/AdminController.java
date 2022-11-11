@@ -79,7 +79,7 @@ public class AdminController {
 					
 			System.out.println("Adding movie " + title + " to movies file...");
 			fileWriter.write("$ID:" + m.getId() + "@@@" + m.getTitle() + "@@@" + m.getTypeOfMovie() +
-						"@@@" + m.getSypnosis() + "@@@" + m.getDirector() + "@@@" + String.join("|", m.getCasts()) +
+						"@@@" + m.getSynopsis() + "@@@" + m.getDirector() + "@@@" + String.join("|", m.getCasts()) +
 						"@@@" + m.getOverallRating() + "@@@" + m.getShowStatus() + "@@@" + m.getAgeRating() + "\n");
 			
 		} catch (FileNotFoundException e) {

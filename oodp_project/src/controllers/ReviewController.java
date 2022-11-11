@@ -108,7 +108,7 @@ public class ReviewController {
 			e.printStackTrace();
 		}
 		catch (IOException e) {
-			System.out.println("Error removing movie");
+			System.out.println("Error");
 			e.printStackTrace();	
 		}
 

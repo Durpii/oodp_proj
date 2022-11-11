@@ -24,39 +24,9 @@ public class AppMain {
 		ac.createMovie(4, "Shrek 2", "Duplicate test", "Dupe", "John Smith", new String[]{"Mike Myers", "Eddie Murphyey", "Cameron Diaz"}, 5, ShowStatus.END_OF_SHOWING, AgeRating.PG13);
 		//ac.removeMovie(3);
 		
-		//BookingController bc = new BookingController();
 		
-		
-		
-		// maybe put into IOController or something
-		
-		
-		/*Scanner sc = new Scanner(System.in);
-		
-		ArrayList<Movie> result = new ArrayList<Movie>();
-		while(result.isEmpty()) {
-			System.out.print("Enter Search Query: ");
-			String searchQuery = sc.next().trim();
-			result.addAll(bc.search(searchQuery));
-		}
-		
-		int i = 1;
-		for(Movie m : result) {
-			System.out.println(i++ + ". " + m.getTitle());
-		}
-		
-		// TODO
-		String choice = null;
-		while(choice != "q") {
-			System.out.print("Select a movie or enter q to return: ");
-			choice = sc.next().trim();
-			if(choice.matches("\\d+") && Integer.valueOf(choice) <= result.size()) {
-				bc.viewDetails(result.get(Integer.valueOf(choice)-1));
-			}
-		}
 		
 		//ac.removeMovie(1);
-		 */
 	}
 
 }

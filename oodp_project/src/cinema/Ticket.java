@@ -3,45 +3,35 @@ package cinema;
 import java.util.Date;
 
 public class Ticket {
+	private int userId;
+	private int cinemId;
 	private int movieId;
-	private String name;
-	private String email;
-	private int phoneNum;
 	private int seatNum;
 	private Date dateTime;
-	private boolean isHoliday;
-	public Ticket(int movieId, String name, String email, int phoneNum, int seatNum, Date dateTime, boolean isHoliday) {
+	public Ticket(int userId, int cinemId, int movieId, int seatNum, Date dateTime) {
+		this.userId = userId;
+		this.cinemId = cinemId;
 		this.movieId = movieId;
-		this.name = name;
-		this.email = email;
-		this.phoneNum = phoneNum;
 		this.seatNum = seatNum;
 		this.dateTime = dateTime;
-		this.isHoliday = isHoliday;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public int getCinemId() {
+		return cinemId;
+	}
+	public void setCinemId(int cinemId) {
+		this.cinemId = cinemId;
 	}
 	public int getMovieId() {
 		return movieId;
 	}
 	public void setMovieId(int movieId) {
 		this.movieId = movieId;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public int getPhoneNum() {
-		return phoneNum;
-	}
-	public void setPhoneNum(int phoneNum) {
-		this.phoneNum = phoneNum;
 	}
 	public int getSeatNum() {
 		return seatNum;
@@ -54,11 +44,5 @@ public class Ticket {
 	}
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
-	}
-	public boolean isHoliday() {
-		return isHoliday;
-	}
-	public void setHoliday(boolean isHoliday) {
-		this.isHoliday = isHoliday;
 	}
 }

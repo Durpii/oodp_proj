@@ -3,7 +3,7 @@ package cinema;
 public class Movie {
 	
 	private int id;
-	private String title, typeOfMovie, sypnosis, director;
+	private String title, typeOfMovie, synopsis, director;
 	private String[] casts;
 	private float overallRating = 0;
 	private ShowStatus showStatus;
@@ -17,13 +17,13 @@ public class Movie {
 		return id;
 	}
 
-	public Movie(int id, String title, String typeOfMovie, String sypnosis, String director, String[] casts, float overallRating,
+	public Movie(int id, String title, String typeOfMovie, String synopsis, String director, String[] casts, float overallRating,
 			ShowStatus showStatus, AgeRating ageRating) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.typeOfMovie = typeOfMovie;
-		this.sypnosis = sypnosis;
+		this.synopsis = synopsis;
 		this.director = director;
 		this.casts = casts;
 		this.overallRating = overallRating;
@@ -51,12 +51,12 @@ public class Movie {
 		this.typeOfMovie = typeOfMovie;
 	}
 
-	public String getSypnosis() {
-		return sypnosis;
+	public String getSynopsis() {
+		return synopsis;
 	}
 
-	public void setSypnosis(String sypnosis) {
-		this.sypnosis = sypnosis;
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
 	}
 
 	public String getDirector() {

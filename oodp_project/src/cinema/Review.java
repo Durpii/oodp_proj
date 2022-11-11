@@ -24,6 +24,8 @@ public class Review {
 		this.movie = movie;
 		this.reviewerName = reviewerName;
 		this.review = review;
+		
+		movie.addNewReview(this);
 	}
 
 	public String getReviewerName() {

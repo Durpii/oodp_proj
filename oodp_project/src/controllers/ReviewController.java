@@ -14,25 +14,13 @@ import users.User;
 
 public class ReviewController {
 	
-	private Movie movie;
-	private String reviewerName, review;
-	private int reviewRating, uid;
 	public final String SEPARATOR = "@@@";
 
-	public ReviewController(Movie movie, User user){
-		this.movie = movie;
-		this.uid = user.getUserId();
+	public ReviewController() {
+		//empty constructor
 	}
 	
-	public void addReview() {
-		try (Scanner sc = new Scanner(System.in)) {
-			System.out.print("Please enter your name: ");
-			reviewerName = sc.next();
-			System.out.print("Please enter your review: ");
-			review = sc.next();
-			System.out.print("Please enter your rating (1 ~ 5): ");
-			reviewRating = sc.nextInt();
-		}
+	public void addReview(Movie movie, String reviewerName, String review, int reviewRating) {
 		
 		Review mreview = new Review(movie, reviewerName, review, reviewRating);
 		
@@ -47,7 +35,7 @@ public class ReviewController {
 			}
 			
 			System.out.println("Adding your review...");
-			fileWriter.write("$ID:" + uid + "@@@" + movie.getId() + "@@@" + mreview.getReviewRating() 
+			fileWriter.write(mreview.getReviewerName() + "@@@" + movie.getId() + "@@@" + mreview.getReviewRating() 
 			+ "@@@" + mreview.getReview() + "\n");
 			
 		}
@@ -72,7 +60,7 @@ public class ReviewController {
 				
 	}
 	
-	public void displayReview() {
+	public void displayReview(Movie movie) {
 		File inputFile = new File("reviews.txt");
 		
 		BufferedReader reader = null;
@@ -87,7 +75,7 @@ public class ReviewController {
 				String trimmedLine = currentLine.trim();
 				
 				String[] data = trimmedLine.split(SEPARATOR);
-				int dataUid = Integer.valueOf(data[0].split(":")[1]);
+				String dataName = data[0];
 				int dataMovieId = Integer.valueOf(data[1]);
 				int dataRating = Integer.valueOf(data[2]);
 				String dataReview = data[3];
@@ -96,7 +84,7 @@ public class ReviewController {
 					continue;
 				}
 				else {
-					System.out.println("User ID:" + dataUid + "\n" + "Rating:" + dataRating + "\n" + "Review:" + dataReview);
+					System.out.println("Reviewer:" + dataName + "\n" + "Rating:" + dataRating + "\n" + "Review:" + dataReview);
 				}
 				
 			}

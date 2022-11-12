@@ -6,8 +6,7 @@ public class Cinema {
 	private int cinemaID;
 	private int noOfRows;
 	private int totalSeats;
-	private String cinemaClass;
-	private boolean isIMax;
+	private CinemaClass cinemaClass;
 	
 	public Cinema() {
 		//empty constructor
@@ -15,11 +14,11 @@ public class Cinema {
 	
 	/*initiate cinema with which cineplex it's from, the id of the cinema, the class of the cinema
 	if it is imax*/
-	public Cinema(Cineplex cineplex, int cinemaID, String cinemaClass, boolean isIMax) {
+	public Cinema(Cineplex cineplex, int cinemaID, CinemaClass cinemaClass) {
+		super();
 		this.cineplex = cineplex;
 		this.cinemaID = cinemaID;
 		this.cinemaClass = cinemaClass;
-		this.isIMax = isIMax;
 	}
 
 	public int getCinemaID() {
@@ -46,20 +45,12 @@ public class Cinema {
 		this.totalSeats = totalSeats;
 	}
 
-	public String getCinemaClass() {
+	public CinemaClass getCinemaClass() {
 		return cinemaClass;
 	}
 
-	public void setCinemaClass(String cinemaClass) {
+	public void setCinemaClass(CinemaClass cinemaClass) {
 		this.cinemaClass = cinemaClass;
-	}
-
-	public boolean isIMax() {
-		return isIMax;
-	}
-
-	public void setIMax(boolean isIMax) {
-		this.isIMax = isIMax;
 	}
 
 }

@@ -34,7 +34,7 @@ public class CinemaUI {
 						break;
 					}	
 				}
-			} while(cineClass != 1 || cineClass != 2);
+			} while(cineClass != 1 && cineClass != 2);
 	
 		}
 	}

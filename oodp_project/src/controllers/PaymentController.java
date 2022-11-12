@@ -23,68 +23,31 @@ public class PaymentController {
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new FileInputStream(file));
-			StringBuffer sb = new StringBuffer();
+			StringBuffer contents = new StringBuffer();
 		
-			boolean overwritten = false;
 			while (sc.hasNextLine()){
 				String line = sc.nextLine();
 				String[] data = line.split(SEPARATOR);
 				if(Integer.valueOf(data[0]) == movieId) {
-					overwritten = true;
-					
+					continue;
 				} else {
-					sb.append(line);
+					contents.append(line);
 				}
-				sb.append("\n");
+				contents.append("\n");
 			}
-			sb.append(movieId);
-			sb.append(weekday);
-			sb.append(weekend);
-			sb.append(holiday);
+			
+			StringBuilder newLine = new StringBuilder(SEPARATOR);
+			newLine.append(movieId);
+			newLine.append(weekday);
+			newLine.append(weekend);
+			newLine.append(holiday);
+		
+			contents.append(newLine);	
+			FileOutputStream fileOut = new FileOutputStream(file);
+	        fileOut.write(contents.toString().getBytes());
+	        fileOut.close();
 			
 		} catch(IOException e) {
-			e.printStackTrace();
-		}
-			
-		
-		try {
-			if(!file.exists()) {
-				file.createNewFile();
-			}
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			StringBuffer sb = new StringBuffer();
-	        String line;
-	        
-	        while ((line = reader.readLine()) != null) {
-	            sb.append(line);
-	            sb.append('\n');
-	        }
-	        reader.close();
-	        FileOutputStream fileOut = new FileOutputStream(file);
-	        fileOut.write(sb.toString().getBytes());
-	        fileOut.close();
-	        
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
-		PrintWriter out = null;
-		
-		try {
-			
-			out = new PrintWriter(new FileWriter(file));
-			StringBuilder str = new StringBuilder(SEPARATOR);
-			str.append(movieId);
-			str.append(weekday);
-			str.append(weekend);
-			str.append(holiday);
-			out.println(str);
-			out.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

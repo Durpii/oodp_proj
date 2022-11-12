@@ -7,16 +7,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 
 import cinema.AgeRating;
 import cinema.Movie;
 import cinema.ShowStatus;
+import cinema.ShowTime;
 
 public class AdminController {
 	
-	public final String SEPARATOR = "@@@";
+	static final String SEPARATOR = "@@@";
+	static final SimpleDateFormat DATETIMEFORMAT = new SimpleDateFormat("yyyy-MM-dd-hh-mm");
 	
 	public AdminController() {
 		
@@ -233,15 +238,60 @@ public class AdminController {
 	}
 	
 
-	public void createCinemaShowtime() {
+	public void createCinemaShowtime(int movieId, int cinemaId, String showTime) {
+		
+		FileWriter fileWriter = null;
+		Scanner sc = null;
+		
+		try {
+			
+			File showTimesFile = new File("showTimes.txt");
+			fileWriter = new FileWriter("showTimes.txt", true);
+			
+			sc = new Scanner(new FileReader(showTimesFile));		
+			
+			while(sc.hasNextLine()) {
+				String[] data = sc.nextLine().split(SEPARATOR);
+				
+				int dataMovieId = Integer.valueOf(data[0]);
+				int dataCinemaId = Integer.valueOf(data[1]);
+				String dataShowTime = data[2];
+				
+				//check if movie with same title exists
+				if (dataShowTime.equals(showTime)) {
+					System.out.println("Movie with showtime " + showTime + " already exists, unable to add");
+					return;
+				}
+			}
+			
+			System.out.println("Adding showtime to showTimes file...");
+			fileWriter.write(movieId + "@@@" + cinemaId + "@@@" + showTime + "\n");
+					
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found!");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Error adding datetime, please try again");
+			e.printStackTrace();
+		} finally {
+			sc.close();
+			if (fileWriter != null) {
+				try {
+					fileWriter.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void removeCinemaShowtime(int movieId, int cinemaId) {
 		
 	}
 	
-	public void removeCinemaShowtime() {
-		
-	}
-	
-	public void updateCinemaShowtime() {
+	public void updateCinemaShowtime(int movieId, int cinemaId) {
 		
 	}
 	

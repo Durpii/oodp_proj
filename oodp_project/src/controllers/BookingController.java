@@ -10,10 +10,23 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.SortedMap;
 import java.util.StringJoiner;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import cinema.AgeRating;
 import cinema.Movie;
@@ -49,12 +62,12 @@ public class BookingController {
 		return movies;
 	}
 	
-	public void book(int userId, int cinemId, int movieId, int seatNum, Date dateTime) {
+	public boolean book(int userId, int cinemId, int movieId, int seatNum, Date dateTime) {
 		//Ticket ticket = new Ticket(userId, cinemId, movieId, seatNum, dateTime);
 		
 		File file = new File("tickets.txt");
 		PrintWriter out = null;
-
+		
 		try {
 			if(!file.exists()) {
 				file.createNewFile();
@@ -67,25 +80,26 @@ public class BookingController {
 			str.append(seatNum);
 			str.append(dateTime);
 			out.println(str);
+			out.close();
+			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			out.close();
 		}
+		return false;
 	}
 	
 	public String[][] getSeatAvailability(int cimeaID, int movieID, Date showTime) {
-		String[][] seats = null;
+		String[][] seats = new String[0][0];
 		
 		Scanner sc = null;
 		int rows, cols;
 		try {
 			// Fetch cinema seats and number of rows
-			sc = new Scanner(new FileInputStream("cinema.txt"));
+			//sc = new Scanner(new FileInputStream("cinema.txt"));
 			
 			// TODO
-			int totalSeats = 100;
+			int totalSeats = 90;
 			rows = 10;
 			cols = totalSeats/rows;
 			
@@ -118,25 +132,47 @@ public class BookingController {
 		return seats;
 	}
 	
-	public ArrayList<Movie> getTopFive() {
-		ArrayList<Movie> m = new ArrayList<Movie>();
+	public Stream<Entry<Integer, Long>> getTopFiveByTicketSales() {
+		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 		Scanner sc = null;
 		try {
-			sc = new Scanner(new FileInputStream("movies.txt"));
+			sc = new Scanner(new FileInputStream("tickets.txt"));
 			sc.useDelimiter(SEPARATOR);
 			while (sc.hasNextLine()){
-				m.add(parseMovie(sc.nextLine()));
+				tickets.add(parseTicket(sc.nextLine()));
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			sc.close();
 		}
-		m.sort(Comparator.comparing(Movie::getOverallRating).reversed());
-		if(m.size() < 5) {
-			return m;
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+		Map<Integer, Long> count = tickets.stream().collect(Collectors.groupingBy(Ticket::getMovieId, Collectors.counting()));
+		/*count.entrySet().stream().sorted().limit(5).forEach((e) -> {
+			movies.add(getMovieById(e.getValue().intValue()));
+		});*/
+		return count.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).limit(5);
+	}
+	
+	public ArrayList<Movie> getTopFivebyRatings() {
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+		Scanner sc = null;
+		try {
+			sc = new Scanner(new FileInputStream("movies.txt"));
+			sc.useDelimiter(SEPARATOR);
+			while (sc.hasNextLine()){
+				movies.add(parseMovie(sc.nextLine()));
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			sc.close();
+		}
+		movies.sort(Comparator.comparing(Movie::getOverallRating).reversed());
+		if(movies.size() < 5) {
+			return movies;
 		} else {
-			return (ArrayList<Movie>) m.subList(0, 5);
+			return (ArrayList<Movie>) movies.subList(0, 5);
 		}
 	}
 	
@@ -147,7 +183,6 @@ public class BookingController {
 		if(file.exists()) {
 			try {
 				sc = new Scanner(new FileInputStream(file));
-				int count;
 				while (sc.hasNextLine()){
 					Ticket ticket = parseTicket(sc.nextLine());
 					if(ticket.getUserId() == userId) {
@@ -199,20 +234,17 @@ public class BookingController {
 	}
 	
 	public Ticket parseTicket(String input) {
-		Ticket ticket = null;
 		String[] data = input.split(SEPARATOR);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy;HH:mm:ss");
+		int userId = Integer.parseInt(data[0]);
+		int cinemId = Integer.parseInt(data[1]);
+		int movieId = Integer.parseInt(data[2]);
+		int seatNum = Integer.parseInt(data[3]);
+		Date dateTime;
 		try {
-			ticket = new Ticket(
-					Integer.parseInt(data[0]),
-					Integer.parseInt(data[1]),
-					Integer.parseInt(data[2]),
-					Integer.parseInt(data[3]),
-					sdf.parse(data[4]));
-		} catch (NumberFormatException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			dateTime = new SimpleDateFormat("dd-MM-yyyy;HH:mm:ss").parse(data[4]);
+		} catch (ParseException e) {
+			dateTime = new Date();
 		}
-		return ticket;
+		return new Ticket(userId, cinemId, movieId, seatNum, dateTime);
 	}
 }

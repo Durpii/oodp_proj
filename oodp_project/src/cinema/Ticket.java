@@ -1,6 +1,13 @@
 package cinema;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Ticket {
 	private int userId;
@@ -44,5 +51,39 @@ public class Ticket {
 	}
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
+	}
+	public boolean isHoliday(Date dateTime) {
+		String SEPARATOR = "@@@";
+		Scanner sc = null;
+		File file = new File("holidays.txt");
+		if(file.exists()) {
+			try {
+				sc = new Scanner(new FileInputStream(file));
+				sc.useDelimiter(SEPARATOR);
+				Calendar target = Calendar.getInstance();
+				target.setTime(dateTime);
+				while (sc.hasNextLine()){
+					Calendar holiday = Calendar.getInstance();
+					holiday.setTime(new SimpleDateFormat("dd-MM-yyyy").parse(sc.nextLine()));
+					if(target.get(Calendar.YEAR) == holiday.get(Calendar.YEAR) && target.get(Calendar.DAY_OF_YEAR) == holiday.get(Calendar.DAY_OF_YEAR)) {
+						return true;
+					}
+				}
+			} catch (FileNotFoundException | ParseException e) {
+				e.printStackTrace();
+			} finally {
+				sc.close();
+			}
+		}
+		return false;
+	}
+	
+	public boolean isWeekend(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		if(calendar.DAY_OF_WEEK>6) {
+			return true;
+		}
+		return false;
 	}
 }

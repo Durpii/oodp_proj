@@ -3,6 +3,7 @@ package cinema;
 public class Cinema {
 
 	private Cineplex cineplex;
+	private String cinemaName;
 	private int cinemaID;
 	private int noOfRows;
 	private int totalSeats;
@@ -15,11 +16,19 @@ public class Cinema {
 	
 	/*initiate cinema with which cineplex it's from, the id of the cinema, the class of the cinema
 	if it is imax*/
-	public Cinema(Cineplex cineplex, int cinemaID, String cinemaClass, boolean isIMax) {
+	public Cinema(Cineplex cineplex, int cinemeName, int cinemaID, String cinemaClass, boolean isIMax) {
 		this.cineplex = cineplex;
 		this.cinemaID = cinemaID;
 		this.cinemaClass = cinemaClass;
 		this.isIMax = isIMax;
+	}
+
+	public String getCinemaName() {
+		return cinemaName;
+	}
+
+	public void setCinemaName(String cinemaName) {
+		this.cinemaName = cinemaName;
 	}
 
 	public int getCinemaID() {

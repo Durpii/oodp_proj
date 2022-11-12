@@ -28,7 +28,7 @@ public class AppMain {
 		
 		MovieGoer movieGoer = lc.userLogin("User1", "password1");
 		BookingUI bUI = new BookingUI(movieGoer);
-		bUI.viewBookingHistory();
+		bUI.searchMovie();
 		
 		//ac.removeMovie(1);
 	}

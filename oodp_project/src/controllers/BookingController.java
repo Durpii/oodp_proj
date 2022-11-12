@@ -67,7 +67,7 @@ public class BookingController {
 				+ "==============================\n",
 				
 				m.getTitle(),
-				m.getSypnosis(),
+				m.getSynopsis(),
 				m.getTypeOfMovie(),
 				m.getAgeRating(),
 				m.getOverallRating(),

@@ -1,5 +1,5 @@
 package cinema;
 
-public class CinemaClass {
-
+public enum CinemaClass {
+	REGULAR, PLATINUM;
 }

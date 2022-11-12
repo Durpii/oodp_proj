@@ -1,23 +1,23 @@
 package cinema;
 
+import java.util.Date;
+
 public class ShowTime {
-	private String date;
-	private String time;
+	private Date date;
 	
 	public ShowTime() {
 		
 	}
 	
-	public ShowTime(String date, String time) {
+	public ShowTime(Date date) {
 		this.date = date;
-		this.time = time;
 	}
 	
-	public void updateShowTime(String newTime) {
-		this.time = newTime;
+	public void updateShowTime(Date date) {
+		this.date = date;
 	}
 	
-	public void updateShowDate(String newDate) {
+	public void updateShowDate(Date newDate) {
 		this.date = newDate;
 	}
 }

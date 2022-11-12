@@ -37,7 +37,7 @@ public class BookingUI {
 		String searchQuery = "";
 		while(result.isEmpty()) {
 			System.out.print("Enter Search Query:");
-			searchQuery = sc.next().trim();
+			searchQuery = sc.nextLine().trim();
 			result.addAll(bc.search(searchQuery));
 		}
 
@@ -110,6 +110,8 @@ public class BookingUI {
 						continue;
 					case 2:
 						PaymentController pc = new PaymentController();
+						pc.calculateFee(null);
+						//PaymentUI pUI = new Payment pUI();
 						//pc.calculateFee(false)
 						//bc.book(movieGoer.getUserId(), cinemaId, , seatNum, dateTime);
 						continue;

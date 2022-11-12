@@ -36,7 +36,7 @@ import cinema.Ticket;
 public class BookingController {
 	public BookingController() {}
 	
-	public final String SEPARATOR = "@@@";
+	private final String SEPARATOR = "@@@";
 		
 	public ArrayList<Movie> search(String query) {
 		Scanner sc = null;
@@ -45,7 +45,7 @@ public class BookingController {
 		if(file.exists()) {
 			try {
 				sc = new Scanner(new FileInputStream(file));
-				sc.useDelimiter(SEPARATOR);
+				
 				while (sc.hasNextLine()){
 					Movie m = parseMovie(sc.nextLine());
 					if(m.getTitle().toLowerCase().contains(query.toLowerCase())) {
@@ -113,15 +113,14 @@ public class BookingController {
 			
 			// Scan
 			sc = new Scanner(new FileInputStream("tickets.txt"));
-			sc.useDelimiter(SEPARATOR);
+			
 			while (sc.hasNextLine()){
-				String[] data = sc.nextLine().split(SEPARATOR);
-	            int seatNumber = Integer.parseInt(data[5]);
+				Ticket ticket = parseTicket(sc.nextLine());
+	            int seatNumber = ticket.getSeatNum();
 				int x = seatNumber/rows;
 				int y = seatNumber%rows;
 				seats[x][y] = "X";
 			}
-			
 			
 			
 		} catch (FileNotFoundException e) {
@@ -137,7 +136,7 @@ public class BookingController {
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new FileInputStream("tickets.txt"));
-			sc.useDelimiter(SEPARATOR);
+			
 			while (sc.hasNextLine()){
 				tickets.add(parseTicket(sc.nextLine()));
 			}
@@ -159,7 +158,7 @@ public class BookingController {
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new FileInputStream("movies.txt"));
-			sc.useDelimiter(SEPARATOR);
+			
 			while (sc.hasNextLine()){
 				movies.add(parseMovie(sc.nextLine()));
 			}
@@ -203,7 +202,7 @@ public class BookingController {
 		if(file.exists()) {
 			try {
 				sc = new Scanner(new FileInputStream(file));
-				sc.useDelimiter(SEPARATOR);
+				
 				while (sc.hasNextLine()){
 					Movie m = parseMovie(sc.nextLine());
 					if(m.getId() == movieId) {

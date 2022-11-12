@@ -7,24 +7,23 @@ public class Cineplex {
 	private String cineplexName;
 	private int cineplexID;
 	
-	ArrayList<Cinema> cinemas = new ArrayList<Cinema>();
+	ArrayList<Cinema> cinemas;
 	
 	public Cineplex() {
 		//empty constructor
 	}
 	
-	//construct a Cineplex object with 4 Cinemas (3 Regular, 1 Platinum)
-	public Cineplex(String cineplexName, int cineplexID) {
+	//construct a Cineplex object with 3 Cinemas (2 Regular, 1 Platinum)
+	public Cineplex(String cineplexName) {
 		this.cineplexName = cineplexName;
-		this.cineplexID = cineplexID;
-		
-		//initialise with 3 regular cinemas and 1 platinum cinema
-		for(int i=0; i<3; i++) {
-			Cinema cinema = new Cinema(this, i, CinemaClass.REGULAR);
+		this.cinemas = new ArrayList<Cinema>();
+		//initialise with 2 regular cinemas and 1 platinum cinema
+		for(int i=0; i<2; i++) {
+			Cinema cinema = new Cinema(this, (i+1) , CinemaClass.REGULAR);
 			cinemas.add(cinema);
 		}
 		
-		Cinema cinema = new Cinema(this, 3, CinemaClass.PLATINUM);
+		Cinema cinema = new Cinema(this, 2, CinemaClass.PLATINUM);
 		cinemas.add(cinema);
 		
 	}
@@ -35,14 +34,16 @@ public class Cineplex {
 	public void setCineplexName(String cineplexName) {
 		this.cineplexName = cineplexName;
 	}
-	public int getCineplexID() {
-		return cineplexID;
-	}
-	public void setCineplexID(int cineplexID) {
-		this.cineplexID = cineplexID;
-	}
-	
+
 	public Cinema getCinemaById(int id) {
 		return cinemas.get(id);
+	}
+	
+	public void addCinema(Cinema c) {
+		cinemas.add(c);
+	}
+	
+	public int getCinemaSize() {
+		return cinemas.size();
 	}
 }

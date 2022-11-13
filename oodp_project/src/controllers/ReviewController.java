@@ -11,15 +11,33 @@ import java.util.Scanner;
 import cinema.Movie;
 import cinema.Review;
 import users.User;
-
+/**
+ * ReviewController to act as the controller for communication between ReviewUI and Review. 
+ * @author	Qwek Jin Kee
+ * @version	1.0
+ * @since	2022-11-11
+ */
 public class ReviewController {
 	
+	/**
+	 * The variable that will be used to separate values in the text file.
+	 */
 	public final String SEPARATOR = "@@@";
 
+	/**
+	 * Creates a new ReviewController object.
+	 */
 	public ReviewController() {
 		//empty constructor
 	}
 	
+	/**
+	 * Adds a review to the movie.
+	 * @param movie The movie that the review will be added to.
+	 * @param reviewerName The name of the reviewer.
+	 * @param review The content of the review.
+	 * @param reviewRating The rating of the review.
+	 */
 	public void addReview(Movie movie, String reviewerName, String review, int reviewRating) {
 		
 		Review mreview = new Review(movie, reviewerName, review, reviewRating);
@@ -60,13 +78,13 @@ public class ReviewController {
 				
 	}
 	
+	/**
+	 * Displays the reviews of the specified movie.
+	 * @param movie The movie specified to display the reviews.
+	 */
 	public void displayReview(Movie movie) {
 		
-		float overallRating;
-		
-		overallRating = movie.getOverallRating();
 		System.out.println("Review for " + movie.getTitle());
-		System.out.println("Overall Rating:" + overallRating);
 		
 		File inputFile = new File("reviews.txt");
 		
@@ -91,7 +109,7 @@ public class ReviewController {
 					continue;
 				}
 				else {
-					System.out.println("Reviewer:" + dataName + "\n" + "Rating:" + dataRating + "\n" + "Review:" + dataReview);
+					System.out.println("Reviewer:" + dataName + "\n" + "Rating:" + dataRating + "\n" + "Review:" + dataReview + "\n");
 				}
 				
 			}

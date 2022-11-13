@@ -106,7 +106,8 @@ public class AdminUi {
 		System.out.println("Enter name of movie to remove (Case Sensitive): ");
 		String movieTitle = sc.nextLine();
 		
-		ac.removeMovie(movieTitle);		
+		sc.close();
+		ac.removeMovie(movieTitle);
 	}
 	
 	public void uiUpdateMovie() {
@@ -246,7 +247,65 @@ public class AdminUi {
 		
 		sc.close();
 		//provide movie object to admincontroller to update movies file
-		ac.updateMovie(movieToEdit);
+		ac.updateMovie(movieToEdit, movieTitle);
+	}
+	
+	public void uiCreateCinemaShowtime() {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.print("Enter movieId");
+		int movieId = sc.nextInt();
+		
+		System.out.print("Enter cinemaId");
+		int cinemaId = sc.nextInt();
+		
+		sc.nextLine(); // clear newline
+		
+		System.out.print("Enter showtime: (Format: yyyy-MM-dd-hh-mm)");
+		String showTime = sc.nextLine();
+		
+		sc.close();
+		
+		ac.createCinemaShowtime(movieId, cinemaId, showTime);
+	}
+	
+	public void uiRemoveCinemaShowtimes() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter movieId: ");
+		int movieId = sc.nextInt();
+		
+		System.out.print("Enter cinemaId: ");
+		int cinemaId = sc.nextInt();
+		
+		sc.nextLine(); //clear newline
+		
+		String[] showTimes = ac.returnShowTimes(movieId, cinemaId);
+		
+		if (showTimes == null) {
+			System.out.println("Showtimes do not exist for this movie and cinema");
+			sc.close();
+			return;
+		}
+		
+		System.out.println("Showtimes for movieId: " + movieId + " and cinemaId: " + cinemaId);
+		for (int i = 0; i < showTimes.length; i++) {
+			System.out.println((i+1) + ") " + showTimes[i]);
+		}
+		System.out.print("Enter showtime to remove: ");
+		
+		int showTimeChoice = (sc.nextInt() - 1);
+		
+		sc.nextLine();
+		//System.out.println("showTimeChoice: " + showTimeChoice);
+		//System.out.println("showTime: " + showTimes[showTimeChoice]);
+		sc.close();
+		
+		
+		ac.removeCinemaShowtime(movieId, cinemaId, showTimes[showTimeChoice]);
+	}
+	
+	public void uiUpdateCinemaShowtimes() {
+		//incomplete function
 	}
 	
 	private void updateCasts(Movie movie) {

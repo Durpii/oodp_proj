@@ -17,9 +17,9 @@ public class AppMain {
 
 	public static void main(String[] args) {
 		//App launching point
-		LoginController lc = new LoginController();
+		//LoginController lc = new LoginController();
 		//lc.adminLogin("Bob", "test2");
-		MovieGoer movieGoer = lc.userLogin("User1", "password1");
+		//MovieGoer movieGoer = lc.userLogin("User1", "password1");
 		
 		AdminController ac = new AdminController();
 		//ac.createMovie(1, "Shrek", "Comedy", "Shrek is love, Shrek is life", "Andrew Adamson / Vicky Jensen", new String[]{"Mike Myers", "Eddie Murphy", "Cameron Diaz", "John Lithgow"}, 5, ShowStatus.END_OF_SHOWING, AgeRating.PG13);
@@ -30,6 +30,13 @@ public class AppMain {
 		//ac.createCinemaShowtime(1, 1, "2022-11-12-20-00");
 		//ac.createCinemaShowtime(1, 1, "2022-11-12-21-00");
 		//ac.createCinemaShowtime(1, 1, "2022-11-12-22-00");
+
+		AdminUi aUi = new AdminUi();
+		//aUi.uiRemoveMovie();
+		aUi.uiUpdateMovie();
+		//aUi.uiRemoveCinemaShowtimes();
+		//ac.removeCinemaShowtime(1, 1, "2022-12-12-20-00");
+		
 		
 		//BookingController bc = new BookingController();
 		
@@ -65,12 +72,8 @@ public class AppMain {
 		//ac.removeMovie(1);
 		 */
 		
-		//AdminUi aUi = new AdminUi();
-		
-		//aUi.uiRemoveMovie();
-		//aUi.uiUpdateMovie();
-		BookingUI bUI = new BookingUI();
-		bUI.viewBookingHistory();;
+		//BookingUI bUI = new BookingUI();
+		//bUI.viewBookingHistory();
 	}
 
 }

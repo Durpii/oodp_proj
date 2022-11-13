@@ -250,6 +250,25 @@ public class AdminUi {
 		ac.updateMovie(movieToEdit, movieTitle);
 	}
 	
+	public void uiCreateCinemaShowtime() {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.print("Enter movieId");
+		int movieId = sc.nextInt();
+		
+		System.out.print("Enter cinemaId");
+		int cinemaId = sc.nextInt();
+		
+		sc.nextLine(); // clear newline
+		
+		System.out.print("Enter showtime: (Format: yyyy-MM-dd-hh-mm)");
+		String showTime = sc.nextLine();
+		
+		sc.close();
+		
+		ac.createCinemaShowtime(movieId, cinemaId, showTime);
+	}
+	
 	public void uiRemoveCinemaShowtimes() {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter movieId: ");
@@ -286,7 +305,7 @@ public class AdminUi {
 	}
 	
 	public void uiUpdateCinemaShowtimes() {
-		
+		//incomplete function
 	}
 	
 	private void updateCasts(Movie movie) {

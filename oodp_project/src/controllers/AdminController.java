@@ -169,61 +169,6 @@ public class AdminController {
 		
 	}
 	
-	public Movie returnMovieIfExists(String title) {
-		File inputFile = new File("movies.txt");
-		
-		BufferedReader reader = null;
-		
-		try {
-			reader = new BufferedReader(new FileReader(inputFile));
-			
-			String currentLine;
-			
-			while ((currentLine = reader.readLine()) != null) {
-				//trim newline
-				String trimmedLine = currentLine.trim();
-				
-				String[] data = trimmedLine.split(SEPARATOR);
-		
-				int dataId = Integer.valueOf(data[0].split(":")[1]);
-				String dataTitle = data[1];
-				String dataTypeOfMovie = data[2];
-				String dataSynopsis = data[3];
-				String dataDirector = data[4];
-				String[] dataCasts = data[5].split("\\|");
-				float dataOverallRating = Float.valueOf(data[6]);
-				ShowStatus dataShowStatus = ShowStatus.valueOf(data[7]);
-				AgeRating dataAgeRating = AgeRating.valueOf(data[8]);
-				
-				//check if line has movie
-				if (dataTitle.equals(title)) {
-					Movie m = new Movie(dataId, dataTitle, dataTypeOfMovie, 
-							dataSynopsis, dataDirector, dataCasts,
-							dataShowStatus, dataAgeRating);
-					reader.close();
-					System.out.println("Movie found!");
-					//System.out.println("dataTitle " + dataTitle);
-					//System.out.println("movieName " + title);
-					return m;
-				}
-				
-			}
-				
-			reader.close();
-			
-		} catch(FileNotFoundException e) {
-			System.out.println("File not found!");
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			e.printStackTrace();	
-		}
-		
-		System.out.println("Movie not found!");
-		return null;
-	}
-		
-	
 	public void updateMovie(Movie movie, String oldTitle) {
 		// check if movie details are correct
 		System.out.println("\nNew Movie details: ");
@@ -293,7 +238,6 @@ public class AdminController {
 			e.printStackTrace();	
 		}
 	}
-	
 
 	public void createCinemaShowtime(int movieId, int cinemaId, String showTime) {
 		
@@ -401,6 +345,10 @@ public class AdminController {
                 
     }
 	
+	public void updateCinemaShowtime(int movieId, int cinemaId) {
+		//incomplete function
+	}
+	
 	public String[] returnShowTimes(int movieId, int cinemaId) {
 		//code to search showTime by id and remove from showTimes.txt
         File inputFile = new File("showTimes.txt");
@@ -483,10 +431,60 @@ public class AdminController {
 		return null;
 	}
 	
-	public void updateCinemaShowtime(int movieId, int cinemaId) {
+	public Movie returnMovieIfExists(String title) {
+		File inputFile = new File("movies.txt");
 		
+		BufferedReader reader = null;
+		
+		try {
+			reader = new BufferedReader(new FileReader(inputFile));
+			
+			String currentLine;
+			
+			while ((currentLine = reader.readLine()) != null) {
+				//trim newline
+				String trimmedLine = currentLine.trim();
+				
+				String[] data = trimmedLine.split(SEPARATOR);
+		
+				int dataId = Integer.valueOf(data[0].split(":")[1]);
+				String dataTitle = data[1];
+				String dataTypeOfMovie = data[2];
+				String dataSynopsis = data[3];
+				String dataDirector = data[4];
+				String[] dataCasts = data[5].split("\\|");
+				float dataOverallRating = Float.valueOf(data[6]);
+				ShowStatus dataShowStatus = ShowStatus.valueOf(data[7]);
+				AgeRating dataAgeRating = AgeRating.valueOf(data[8]);
+				
+				//check if line has movie
+				if (dataTitle.equals(title)) {
+					Movie m = new Movie(dataId, dataTitle, dataTypeOfMovie, 
+							dataSynopsis, dataDirector, dataCasts,
+							dataShowStatus, dataAgeRating);
+					reader.close();
+					System.out.println("Movie found!");
+					//System.out.println("dataTitle " + dataTitle);
+					//System.out.println("movieName " + title);
+					return m;
+				}
+				
+			}
+				
+			reader.close();
+			
+		} catch(FileNotFoundException e) {
+			System.out.println("File not found!");
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			e.printStackTrace();	
+		}
+		
+		System.out.println("Movie not found!");
+		return null;
 	}
-	
+
 	public void updateSystemSettings() {
 		
 	}

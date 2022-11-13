@@ -37,7 +37,7 @@ public class PaymentController {
 			}
 			
 			String newLine = String.join(SEPARATOR,
-					Double.valueOf(movieId).toString(),
+					Integer.valueOf(movieId).toString(),
 					Double.valueOf(holiday).toString(),
 					Double.valueOf(weekend).toString(),
 					Double.valueOf(holiday).toString());

@@ -74,8 +74,7 @@ public class BookingController {
 			if(!file.exists()) {
 				file.createNewFile();
 			}
-			out = new PrintWriter(new FileWriter(file));
-2			
+			out = new PrintWriter(new FileWriter(file));			
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDhhmm");
 			String tId = String.format("%3d", ticket.getCinemaId()).replace(' ', '0') + sdf.format(new Date());
 			sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
@@ -263,7 +262,7 @@ public class BookingController {
 		float overallRating = Float.valueOf(data[6]);
 		ShowStatus showStatus = ShowStatus.valueOf(data[7]);
 		AgeRating ageRating = AgeRating.valueOf(data[8]);
-		return new Movie(id, title, typeOfMovie, sypnosis, director, casts, overallRating, showStatus, ageRating);
+		return new Movie(id, title, typeOfMovie, sypnosis, director, casts, showStatus, ageRating);
 	}
 	
 	public Ticket parseTicket(String input) {

@@ -38,7 +38,7 @@ public class LoginController {
 				
 				if (dataLoginName.equals(name) && dataLoginPass.equals(password)) {
 					System.out.println("Logged in as " + name);
-					this.isLoggedIn = true;
+					this.isLoggedIn = true;					
 					return;
 				}
 			}
@@ -89,6 +89,6 @@ public class LoginController {
 			sc.close();
 		}
 		return null;
-		
+			
 	}
 }

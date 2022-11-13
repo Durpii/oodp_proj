@@ -1,3 +1,3 @@
 $ID:1@@@Shrek@@@Comedy@@@Shrek is love, Shrek is life@@@Andrew Adamson / Vicky Jensen@@@Mike Myers|Eddie Murphy|Cameron Diaz|John Lithgow@@@5.0@@@END_OF_SHOWING@@@PG13
-$ID:2@@@Up@@@Comedy@@@House on Mountain@@@Pete Docter@@@Edward Asner|Jordan Nagai|John Ratzenberger@@@5.0@@@END_OF_SHOWING@@@PG13
+$ID:2@@@Up@@@Comedy@@@House on Mountain@@@Pete Docter@@@Edward Asner|Jordan Nagai|John Ratzenberger@@@5.0@@@NOW_SHOWING@@@PG13
 $ID:3@@@Shrek 2@@@Comedy@@@Shrek two@@@John Smith@@@Mike Myers|Eddie Murphyey|Cameron Diaz@@@5.0@@@COMING_SOON@@@PG13

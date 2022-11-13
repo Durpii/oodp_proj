@@ -26,6 +26,7 @@ import controllers.BookingController;
 import controllers.CinemaController;
 import controllers.CineplexController;
 import controllers.PaymentController;
+import controllers.ReviewController;
 import users.MovieGoer;
 
 public class BookingUI {
@@ -103,6 +104,8 @@ public class BookingUI {
 					+ "What would you like to do?\n"
 					+ "\t1) View Seat Availability\n"
 					+ "\t2) Book Movie\n"
+					+ "\t3) Add Review\n"
+					+ "\t4) View Reviews\n"
 					+ "Choose an option or enter q to return: ");
 			if(sc.hasNextInt()) {
 				choice = sc.nextInt();
@@ -148,6 +151,14 @@ public class BookingUI {
 							} 
 						}
 						break;
+					case 3:
+						ReviewUI r1 = new ReviewUI(m);
+						r1.addReview();
+						continue;
+					case 4:
+						ReviewUI r2 = new ReviewUI(m);
+						r2.displayReview();
+						continue;
 				}
 			}
 			else if(sc.next().equals("q")) {

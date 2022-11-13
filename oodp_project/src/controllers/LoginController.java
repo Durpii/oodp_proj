@@ -10,19 +10,45 @@ import java.util.Scanner;
 import users.MovieGoer;
 import users.User;
 
+/**
+ * This class represents the controller that is used to login a user into the system
+ * @author Lim Zi Hao
+ * @version 1.0
+ * @since 2022-11-11
+ *
+ */
 public class LoginController {
 	
+	/**
+	 * The delimiter used to split strings
+	 */
 	public final String SEPARATOR = "@@@";
+	/**
+	 * Checks if the user is logged in or not
+	 */
 	private boolean isLoggedIn = false;
 	
+	/**
+	 * Default constructor to initalise object
+	 */
 	public LoginController() {
 		
 	}
 	
+	/**
+	 * Checks if a user is logged in
+	 * @return logged in status of user
+	 */
 	public boolean isLoggedIn() {
 		return this.isLoggedIn;
 	}
 	
+	/**
+	 * Function used to login admins into the system
+	 * @param name Name of admin
+	 * @param password Password of admin
+	 * @return true if admin successfully logs in successfully, false otherwise
+	 */
 	public boolean adminLogin(String name, String password) {
 		//check a text file if name exists, if exists, continue to check password
 		Scanner sc = null;
@@ -54,6 +80,12 @@ public class LoginController {
 		return false;
 	}
 	
+	/**
+	 * Function used to login users into the system
+	 * @param name Name of movieGoer
+	 * @param password Password of movieGoer
+	 * @return movieGoer object if logged in successfully, null otherwise
+	 */
 	public MovieGoer userLogin(String name, String password) {
 		//check a text file if name exists, if exists, continue to check password
 		Scanner sc = null;

@@ -18,15 +18,46 @@ import cinema.Movie;
 import cinema.ShowStatus;
 import cinema.ShowTime;
 
+/**
+ * This class represents the "backend" to write to files
+ * @author Lim Zi Hao
+ * @version 1.0
+ * @since 2022-11-11
+ *
+ */
+
 public class AdminController {
 	
+	/**
+	 * The delimiter used to split strings
+	 */
 	static final String SEPARATOR = "@@@";
+	
+	/**
+	 * The date time format used to convert date objects to and from String
+	 */
 	static final SimpleDateFormat DATETIMEFORMAT = new SimpleDateFormat("yyyy-MM-dd-hh-mm");
 	
+	/**
+	 * Creates an AdminController object to be used by AdminUi class
+	 */
 	public AdminController() {
 		
 	}
 	
+	/**
+	 * Creates a new movie object with the following parameters
+	 * The movie object is then passed into the movies.txt file
+	 * @param id
+	 * @param title
+	 * @param typeOfMovie
+	 * @param synopsis
+	 * @param director
+	 * @param casts
+	 * @param overallRating
+	 * @param showStatus
+	 * @param ageRating
+	 */
 	public void createMovie(int id, String title, String typeOfMovie,
 			String synopsis, String director, String[] casts,
 			float overallRating, ShowStatus showStatus,  AgeRating ageRating) {
@@ -105,6 +136,11 @@ public class AdminController {
 		}
 		
 	}
+	
+	/**
+	 * Removes a movie in movies.txt with the indicated movie name parameter
+	 * @param movieName
+	 */
 	public void removeMovie(String movieName) {
 		//code to search movie by id and remove from movies.txt
 		File inputFile = new File("movies.txt");
@@ -169,6 +205,11 @@ public class AdminController {
 		
 	}
 	
+	/**
+	 * Updates movie in movies.txt indicated by oldTitle parameter and movie object from AdminUi class
+	 * @param movie
+	 * @param oldTitle
+	 */
 	public void updateMovie(Movie movie, String oldTitle) {
 		// check if movie details are correct
 		System.out.println("\nNew Movie details: ");
@@ -239,6 +280,12 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Creates a new showtime in showTimes.txt for indicated movieId, cinemaId
+	 * @param movieId
+	 * @param cinemaId
+	 * @param showTime
+	 */
 	public void createCinemaShowtime(int movieId, int cinemaId, String showTime) {
 		
 		FileWriter fileWriter = null;
@@ -288,6 +335,12 @@ public class AdminController {
 		}
 	}
 	
+	/**
+	 * Removes indicated showTime in showTimes.txt with corresponding movieId and cinemaId
+	 * @param movieId
+	 * @param cinemaId
+	 * @param showTime
+	 */
 	public void removeCinemaShowtime(int movieId, int cinemaId, String showTime) {
         //code to search showTime by id and remove from showTimes.txt
                 File inputFile = new File("showTimes.txt");
@@ -344,11 +397,22 @@ public class AdminController {
                 }
                 
     }
-	
+		
+	/**
+	 * Updates cinema showtime with indicated movieId and cinemaId, incomplete
+	 * @param movieId
+	 * @param cinemaId
+	 */
 	public void updateCinemaShowtime(int movieId, int cinemaId) {
 		//incomplete function
 	}
 	
+	/**
+	 * Returns array of showtimes from showTimes.txt with indicated movieId and cinemaId to be used in adminUi.
+	 * @param movieId
+	 * @param cinemaId
+	 * @return array of showtimes, null if showtimes do not exist for movieId and cinemaId
+	 */
 	public String[] returnShowTimes(int movieId, int cinemaId) {
 		//code to search showTime by id and remove from showTimes.txt
         File inputFile = new File("showTimes.txt");
@@ -431,6 +495,12 @@ public class AdminController {
 		return null;
 	}
 	
+	/**
+	 * Function returns a movie object if corresponding title exists in movies.txt
+	 * @param title
+	 * @return movie object with specified title
+	 */
+	
 	public Movie returnMovieIfExists(String title) {
 		File inputFile = new File("movies.txt");
 		
@@ -485,12 +555,11 @@ public class AdminController {
 		return null;
 	}
 
+	/**
+	 * function to update system settings, incomplete
+	 */
 	public void updateSystemSettings() {
 		
-	}
-	
-	public void ListTop5Rankings() {
-		//List by ticket sale or by overall reviewer's rating
 	}
 	
 	

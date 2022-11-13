@@ -14,8 +14,9 @@ public class Cineplex {
 	}
 	
 	//construct a Cineplex object with 3 Cinemas (2 Regular, 1 Platinum)
-	public Cineplex(String cineplexName) {
+	public Cineplex(String cineplexName, int cineplexID) {
 		this.cineplexName = cineplexName;
+		this.cineplexID = cineplexID;
 		this.cinemas = new ArrayList<Cinema>();
 		//initialise with 2 regular cinemas and 1 platinum cinema
 		for(int i=0; i<2; i++) {
@@ -35,6 +36,14 @@ public class Cineplex {
 		this.cineplexName = cineplexName;
 	}
 
+	public int getCineplexID() {
+		return cineplexID;
+	}
+	
+	public void setCineplexID(int cineplexID) {
+		this.cineplexID = cineplexID;
+	}
+	
 	public Cinema getCinemaById(int id) {
 		return cinemas.get(id);
 	}

@@ -86,7 +86,7 @@ public class BookingUI {
 				m.getSynopsis(),
 				m.getTypeOfMovie(),
 				m.getAgeRating(),
-				m.getOverallRating(),
+				m.getOverallRating() == -1 ? "NA" : m.getOverallRating(),
 				m.getShowStatus().toString().replace("_", " "),
 				String.join(", ", m.getCasts()),
 				m.getDirector()
@@ -109,8 +109,18 @@ public class BookingUI {
 					+ "Choose an option or enter q to return: ");
 			if(sc.hasNextInt()) {
 				choice = sc.nextInt();
-				if(choice <= 0 && choice >= 3) {
+				if(choice < 1 && choice > 4) {
 					continue;
+				}
+				
+				ReviewUI reviewUI = new ReviewUI(m);
+				if(choice == 3 || choice == 4) {
+					if(choice == 3) {
+						reviewUI.addReview();
+					} else {
+						reviewUI.displayReview();
+					}
+					break;
 				}
 				
 				if(m.getShowStatus() == ShowStatus.END_OF_SHOWING || m.getShowStatus() == ShowStatus.COMING_SOON) {
@@ -151,14 +161,6 @@ public class BookingUI {
 							} 
 						}
 						break;
-					case 3:
-						ReviewUI r1 = new ReviewUI(m);
-						r1.addReview();
-						continue;
-					case 4:
-						ReviewUI r2 = new ReviewUI(m);
-						r2.displayReview();
-						continue;
 				}
 			}
 			else if(sc.next().equals("q")) {

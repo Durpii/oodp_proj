@@ -3,8 +3,6 @@ package controllers;
 import java.util.ArrayList;
 
 import cinema.Cineplex;
-import cinema.Cinema;
-import cinema.CinemaClass;
 
 public class CineplexController {
 
@@ -25,9 +23,4 @@ public class CineplexController {
 		return cineplexes.get((id-1));
 	}
 	
-	public void addCinema(Cineplex cineplex, CinemaClass cinemaClass) {
-		int i = cineplex.getCinemaSize();
-		Cinema cinema = new Cinema(cineplex, i, cinemaClass);
-		cineplex.addCinema(cinema);
-	}
 }

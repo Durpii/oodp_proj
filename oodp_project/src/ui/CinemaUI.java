@@ -54,9 +54,11 @@ public class CinemaUI {
 					switch(cineClass) {
 					case 1:
 						cc.addCinema(cineplex, CinemaClass.REGULAR);
+						System.out.println("Cinema added!");
 						break;
 					case 2:
 						cc.addCinema(cineplex, CinemaClass.PLATINUM);
+						System.out.println("Cinema added!");
 						break;
 					}	
 				}

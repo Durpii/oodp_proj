@@ -26,19 +26,19 @@ public class AdminUi {
 		int noOfCasts;
 		
 		
-		System.out.print("Enter title of movie");
+		System.out.print("Enter title of movie: ");
 		String movieTitle = sc.nextLine();
 		
-		System.out.print("Enter type of movie");
+		System.out.print("Enter type of movie: ");
 		String typeOfMovie = sc.nextLine();
 		
-		System.out.print("Enter synopsis of movie");
+		System.out.print("Enter synopsis of movie: ");
 		String movieSynopsis = sc.nextLine();
 		
-		System.out.print("Enter director of movie");
+		System.out.print("Enter director of movie: ");
 		String movieDirector = sc.nextLine();
 		
-		System.out.print("Enter number of casts (at least 2)");
+		System.out.print("Enter number of casts (at least 2): ");
 		do {
 			noOfCasts = sc.nextInt();
 		} while (noOfCasts < 2);
@@ -158,15 +158,15 @@ public class AdminUi {
 			switch(choice) {
 				case 1:
 					//update title
-					System.out.println("Give new title of movie");
+					System.out.print("Give new title of movie: ");
 					String newTitle = sc.nextLine();
 					
 					movieToEdit.setTitle(newTitle);
-					System.out.println("Movie title updated");
+					System.out.print("Movie title updated: ");
 					break;
 				case 2:
 					//update type of movie
-					System.out.println("Give new movie type");
+					System.out.print("Give new movie type: ");
 					String newMovieType = sc.nextLine();
 					
 					movieToEdit.setTypeOfMovie(newMovieType);
@@ -174,7 +174,7 @@ public class AdminUi {
 					break;
 				case 3:
 					//update synopsis
-					System.out.println("Give new movie synopsis");
+					System.out.print("Give new movie synopsis: ");
 					String newSynopsis = sc.nextLine();
 					
 					movieToEdit.setSynopsis(newSynopsis);
@@ -182,7 +182,7 @@ public class AdminUi {
 					break;
 				case 4:
 					//update director
-					System.out.println("Give new movie director");
+					System.out.print("Give new movie director: ");
 					String newDirector = sc.nextLine();
 					
 					movieToEdit.setDirector(newDirector);

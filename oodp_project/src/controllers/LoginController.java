@@ -23,7 +23,7 @@ public class LoginController {
 		return this.isLoggedIn;
 	}
 	
-	public void adminLogin(String name, String password) {
+	public boolean adminLogin(String name, String password) {
 		//check a text file if name exists, if exists, continue to check password
 		Scanner sc = null;
 		try {
@@ -39,7 +39,7 @@ public class LoginController {
 				if (dataLoginName.equals(name) && dataLoginPass.equals(password)) {
 					System.out.println("Logged in as " + name);
 					this.isLoggedIn = true;					
-					return;
+					return true;
 				}
 			}
 			
@@ -51,8 +51,7 @@ public class LoginController {
 		} finally {
 			sc.close();
 		}
-		
-		
+		return false;
 	}
 	
 	public MovieGoer userLogin(String name, String password) {

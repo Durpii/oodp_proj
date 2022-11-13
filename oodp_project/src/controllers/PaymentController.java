@@ -36,11 +36,11 @@ public class PaymentController {
 				contents.append("\n");
 			}
 			
-			StringBuilder newLine = new StringBuilder(SEPARATOR);
-			newLine.append(movieId);
-			newLine.append(weekday);
-			newLine.append(weekend);
-			newLine.append(holiday);
+			String newLine = String.join(SEPARATOR,
+					Double.valueOf(movieId).toString(),
+					Double.valueOf(holiday).toString(),
+					Double.valueOf(weekend).toString(),
+					Double.valueOf(holiday).toString());
 		
 			contents.append(newLine);	
 			FileOutputStream fileOut = new FileOutputStream(file);

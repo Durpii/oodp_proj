@@ -33,7 +33,7 @@ public class PaymentUI {
 		return total;
 	}
 	
-	public void displayMoviePriceAdjustmentForm(Movie movie) {
+	public void displayMoviePriceAdjustmentForm(int movieId) {
 		Scanner sc = new Scanner(System.in);
 		
 		HashMap<String, Double> prices = new HashMap<>();
@@ -51,6 +51,6 @@ public class PaymentUI {
 		}
 		sc.close();
 		PaymentController pc = new PaymentController();
-		pc.adjustMoviePrices(movie.getId(), prices.get("Weekday"), prices.get("Weekend"), prices.get("Holiday"));
+		pc.adjustMoviePrices(movieId, prices.get("Weekday"), prices.get("Weekend"), prices.get("Holiday"));
 	}
 }

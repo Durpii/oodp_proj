@@ -358,7 +358,7 @@ public class BookingUI {
 				Movie m = bc.getMovieById(e.getKey());
 				movie.add(m);
 				Long numOfTickets = e.getValue();
-				System.out.printf("%d) %s - %d sold", i++, m.getTitle(), numOfTickets);
+				System.out.printf("%d) %s - %d sold\n", i++, m.getTitle(), numOfTickets);
 			}
 		} else {
 			System.out.println("Top 5 Movie by Ratings");

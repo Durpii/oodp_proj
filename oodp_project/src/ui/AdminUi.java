@@ -1,8 +1,12 @@
 package ui;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import cinema.AgeRating;
 import cinema.Movie;
@@ -41,6 +45,7 @@ public class AdminUi {
 		
 		String[] movieCasts = new String[noOfCasts];
 		
+		sc.nextLine();
 		System.out.println("Enter cast names: ");
 		for (int i = 0; i < noOfCasts; i++) {
 			movieCasts[i] = sc.nextLine();
@@ -79,8 +84,8 @@ public class AdminUi {
 		System.out.println("\t6. " + AgeRating.R21);
 		System.out.println("\t7. Exit");
 		statusChoice = sc.nextInt();
-		
-		if (ratingChoice == 1) {
+		movieRating = AgeRating.values()[statusChoice-1];
+		/*if (ratingChoice == 1) {
 			movieRating = AgeRating.G;
 		} else if (ratingChoice == 2) {
 			movieRating = AgeRating.PG;
@@ -92,12 +97,20 @@ public class AdminUi {
 			movieRating = AgeRating.M18;
 		} else if (ratingChoice == 6) {
 			movieRating = AgeRating.R21;
-		}
+		}*/
+		
+		
+		
+		// Fix id
+		int id = Long.valueOf(Instant.now().toEpochMilli()).intValue();
+		//create movie
+		ac.createMovie(id, movieTitle, typeOfMovie, movieSynopsis, movieDirector, movieCasts, 5, movieStatus, movieRating);
+		
+		sc.nextLine();
+		PaymentUI paymentUi = new PaymentUI();
+		paymentUi.displayMoviePriceAdjustmentForm(id);
 		
 		sc.close();
-		
-		//create movie
-		ac.createMovie(0, movieTitle, typeOfMovie, movieSynopsis, movieDirector, movieCasts, 5, movieStatus, movieRating);
 	}
 	
 	public void uiRemoveMovie() {
@@ -245,9 +258,14 @@ public class AdminUi {
 			
 		} while (choice != -1);		
 		
-		sc.close();
 		//provide movie object to admincontroller to update movies file
 		ac.updateMovie(movieToEdit, movieTitle);
+		
+		sc.nextLine();
+		PaymentUI paymentUi = new PaymentUI();
+		paymentUi.displayMoviePriceAdjustmentForm(movieToEdit.getId());
+		
+		sc.close();
 	}
 	
 	public void uiCreateCinemaShowtime() {

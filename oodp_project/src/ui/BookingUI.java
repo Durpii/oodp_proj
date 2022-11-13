@@ -29,15 +29,42 @@ import controllers.PaymentController;
 import controllers.ReviewController;
 import users.MovieGoer;
 
+/**
+Booking UI for searching, displaying and booking Movies. 
+@author Liu Woon Kit
+@version 1.0
+@since 2022-11-11
+*/
+
 public class BookingUI {
+	/**
+	 * Initialized Booking Controller
+	 */
 	BookingController bc = new BookingController();
+	
+	/**
+	 * Initialized Scanner Object
+	 */
 	Scanner sc = new Scanner(System.in);
+	
+	/**
+	 * Divider for formatting output
+	 */
 	String divider = "_".repeat(40).concat("\n\n");
 	
+	/** 
+	* Class constructor.
+	*/
 	public BookingUI() {
 		
 	}
 	
+	 /**
+	 * Prompts user for search query.
+	 * Display a list of matching movies 
+	 * Allows user to select a movie.
+	 * Selected movie displays movie details
+	 */
 	public void searchMovie() {
 		ArrayList<Movie> result = new ArrayList<Movie>();
 		String searchQuery = "";
@@ -65,11 +92,13 @@ public class BookingUI {
 			}
 		};
 	}
-	
-	public void listMovies() {
-		
-	}
-	
+
+	 /**
+	 * Displays the movie given the movie object.
+	 * Displays information such as Synopsis, Genre, Age Restriction, Overall Rating, Shows Status, Cast, Director.
+	 * Displays take-able actions through displayMovieOptions(). 
+	 * @param Movie The selected Movie.
+	 */
 	public void displayMovieDetails(Movie m) {
 		System.out.printf(
 				divider
@@ -94,6 +123,11 @@ public class BookingUI {
 		displayMovieOptions(m);
 	}
 	
+	 /**
+	 * Displays what the user can do with the selected Movie
+	 * User can View Seat Availability, Book Movie, Add/View Review
+	 * @param Movie The selected Movie.
+	 */
 	public void displayMovieOptions(Movie m) {
 		if(m.getShowStatus() == ShowStatus.END_OF_SHOWING) {
 			return;
@@ -169,6 +203,14 @@ public class BookingUI {
 		}
 	}
 	
+	 /**
+	 * This methods prompts for information that must be collected from user prior to booking.
+	 * Additional information collected such as their name, phone number, email address, and age.
+	 * @param cinemaId The selected cineplex.
+	 * @param movie The selected movie.
+	 * @param showTime The selected show time.
+	 * @param seatNum The selected seat number.
+	 */
 	public void displayBookingForm(int cinemaId, Movie movie, ShowTime showTime, String seatNum) {
 		int phoneNum = 0;
 		String email = null, name = null;
@@ -231,6 +273,11 @@ public class BookingUI {
 		}
 	}
 
+	 /**
+	 * Displays prompt for the selection of the Cineplex the user wishes to go.
+	 * @param movieId The selected Movie.
+	 * @return the id of the cineplex
+	 */
 	public int promptCinemaSelection(int movieId) {
 		ArrayList<Cineplex> cineplex = new ArrayList<Cineplex>();
 		ArrayList<Integer> cinemaIds = bc.getCinemaIdsWithMovie(movieId);
@@ -258,6 +305,14 @@ public class BookingUI {
 		return -1;
 	}
 	
+	 /**
+	 * Displays prompt for the selection of the time slot the user wishes to go.
+	 * The name should include both first and
+	 * last name.
+	 * @param cinemaId the selected cineplex.
+	 * @param movieId The selected Movie.
+	 * @return the selected time slot
+	 */
 	public ShowTime promptShowTimeSelection(int cinemaId, int movidId) {
 		Map<Instant, List<ShowTime>> showTimes = bc.getShowTimes(cinemaId, movidId).stream().collect(Collectors.groupingBy(e -> e.getDate().toInstant().truncatedTo(ChronoUnit.DAYS)));
 		int choice = 0;
@@ -304,6 +359,10 @@ public class BookingUI {
 		return null;
 	}
 	
+	 /**
+	 * This displays the booking history of the customers.
+	 * Prompts user for email or phone number.
+	 */
 	public void viewBookingHistory() {
 		System.out.print(divider);
 		System.out.println("Enter email address or phone number: ");
@@ -324,6 +383,13 @@ public class BookingUI {
 		}
 	}
 	
+	 /**
+	 * Retrieve populated seats and displays the status of the seating arrangement.
+	 * "_" denotes that the seat is available, while "X" represents a taken seat.
+	 * @param cimeaID ID of the selected Cineplex.
+	 * @param movieID ID of the selected Movie.
+	 * @param showTime The selected time slot.
+	 */
 	public void viewSeatAvailability(int cimeaID, int movieID, ShowTime showTime) {
 		String alphabert = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		String[][] seats = bc.getSeatAvailability(cimeaID, movieID, showTime.getDate());
@@ -359,6 +425,10 @@ public class BookingUI {
 		
 	}
 	
+	 /**
+	 * Displays the top 5 movies, with option of if the results should be sorted by ticket sales or by ratings.
+	 * @param byTicketSales The choice of sorting.
+	 */
 	public void listTopFive(boolean byTicketSales) {
 		System.out.print(divider);
 		if(byTicketSales) {

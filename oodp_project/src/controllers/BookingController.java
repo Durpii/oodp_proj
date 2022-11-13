@@ -37,11 +37,31 @@ import cinema.ShowStatus;
 import cinema.ShowTime;
 import cinema.Ticket;
 
+/**
+This Booking Controller for manipulating data in "movies.txt" database.
+@author Liu Woon Kit
+@version 1.0
+@since 2022-11-11
+*/
+
 public class BookingController {
+	/** 
+	* Class constructor.
+	*/
 	public BookingController() {}
 	
+	/**
+	 * String to be used as delimiter
+	 */
 	private final String SEPARATOR = "@@@";
-		
+	
+	/**
+	* Scans through movies.txt, finding matches for the query.
+	* If matches, it is collected to an array.
+	* Once done, returns the resultant matches.
+	* @param query The query to be searched against
+	* @return The array of results
+	*/
 	public ArrayList<Movie> search(String query) {
 		Scanner sc = null;
 		ArrayList<Movie> movies = new ArrayList<Movie>();
@@ -66,6 +86,11 @@ public class BookingController {
 		return movies;
 	}
 	
+	/**
+	* Adds the ticket in the "tickets.txt" database.
+	* @param ticket	The ticket to be added to the database
+	* @return		The booking status
+	*/
 	public boolean book(Ticket ticket) {
 		//Ticket ticket = new Ticket(userId, cinemId, movieId, seatNum, dateTime);
 		
@@ -103,6 +128,11 @@ public class BookingController {
 		return false;
 	}
 	
+	/**
+	* Takes in a movie ID, which searches the "showTimes.txt", retrieving the list of cineplexes that is screening the movie  
+	* @param movieId	The id of the movie
+	* @return			The list of cineplex IDs
+	*/
 	public ArrayList<Integer> getCinemaIdsWithMovie(int movieId) {
 		ArrayList<Integer> cinemas = new ArrayList<Integer>();
 		Scanner sc = null;
@@ -127,6 +157,12 @@ public class BookingController {
 		return cinemas;
 	}
 	
+	/**
+	* Takes in a movie ID and cineplex ID, which searches the "showTimes.txt", retrieving the list of movie time slots at that particular cineplex.  
+	* @param cinemaId	The id of the cineplex
+	* @param movieId	The id of the movie
+	* @return			The list of show times
+	*/
 	public ArrayList<ShowTime> getShowTimes(int cinemaId, int movieId) {
 		ArrayList<ShowTime> showTimes = new ArrayList<ShowTime>();
 		Scanner sc = null;
@@ -151,6 +187,15 @@ public class BookingController {
 		return showTimes;
 	}
 	
+	/**
+	* Takes in a movie ID, cineplex ID, show time
+	* Searches for tickets that has the same cinema ID, movie ID and show time.
+	* Populates a 2D array with the seat number of the matching tickets.
+	* @param cinemaId	The id of the cineplex
+	* @param movieId	The id of the movie
+	* @param showTime	The time slot of the movie
+	* @return			The 2D representation of the seats status
+	*/
 	public String[][] getSeatAvailability(int cimeaID, int movieID, Date showTime) {
 		String[][] seats = new String[0][0];
 		String alphabert = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -188,6 +233,11 @@ public class BookingController {
 		return seats;
 	}
 	
+	/**
+	* Groups the tickets by movie ID.
+	* Sorts the tickets by the number of occurrences.
+	* @return			The top 5 Movie by sales
+	*/
 	public Stream<Entry<Integer, Long>> getTopFiveByTicketSales() {
 		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 		Scanner sc = null;
@@ -210,6 +260,10 @@ public class BookingController {
 		return count.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).limit(5);
 	}
 	
+	/**
+	* Sorts the movies by their overall ratings.
+	* @return			The top 5 Movie by Ratings
+	* */
 	public ArrayList<Movie> getTopFivebyRatings() {
 		ArrayList<Movie> movies = new ArrayList<Movie>();
 		Scanner sc = null;
@@ -232,6 +286,12 @@ public class BookingController {
 		}
 	}
 	
+	/**
+	* Searches the database for a ticket that has a specific email address and phone number
+	* Returns the matching tickets.
+	* @param query	The information to search for
+	* @return			The List of past booked tickets
+	*/
 	public ArrayList<Ticket> getBookingHistory(String... query) {
 		ArrayList<Ticket> history = new ArrayList<Ticket>();
 		Scanner sc = null;
@@ -255,6 +315,12 @@ public class BookingController {
 		return history;
 	}
 	
+	/**
+	* Searches the database for a specific movie ID.
+	* One found, the movie information is then returned
+	* @param movieId	The id of the Movie
+	* @return			The Movie object
+	*/
 	public Movie getMovieById(int movieId) {
 		Scanner sc = null;
 		File file = new File("movies.txt");
@@ -277,6 +343,12 @@ public class BookingController {
 		return null;
 	}
 	
+	/**
+	* Takes in a string line retrieve from a text file database.
+	* Transforms the string into a Movie object using the SEPARATOR
+	* @param input	The string to be parsed
+	* @return The parsed Movie object
+	*/
 	public Movie parseMovie(String input) {
 		String[] data = input.split(SEPARATOR);
 		int id = Integer.valueOf(data[0].split(":")[1]);
@@ -291,6 +363,12 @@ public class BookingController {
 		return new Movie(id, title, typeOfMovie, sypnosis, director, casts, showStatus, ageRating);
 	}
 	
+	/**
+	* Takes in a string line retrieve from a text file database.
+	* Transforms the string into a Ticket object using the SEPARATOR
+	* @param input	The string to be parsed
+	* @return The parsed Ticket object
+	*/
 	public Ticket parseTicket(String input) {
 		String[] data = input.split(SEPARATOR);
 		String tId = data[0];

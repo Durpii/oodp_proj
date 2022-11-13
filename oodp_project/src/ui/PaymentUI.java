@@ -9,12 +9,31 @@ import cinema.Movie;
 import cinema.Ticket;
 import controllers.PaymentController;
 
+/**
+Payment UI for displaying form for changing prices for movies, and displaying total price for ticket. 
+@author Liu Woon Kit
+@version 1.0
+@since 2022-11-11
+*/
+
 public class PaymentUI {
+	/**
+	 * Initialized Payment Controller
+	 */
 	PaymentController pc = new PaymentController();
 	
+	/** 
+	* Class constructor.
+	*/
 	public PaymentUI() {
 		
 	}
+	
+	/**
+	 * Calculates and displays price and ticket type
+	 * @param ticket The ticket to be booked
+	 * @return the calculated total price
+	 */
 	public double displayPaymentForm(Ticket ticket) {
 		double price = pc.calculateFee(ticket);
 		double total = price/100*107;
@@ -33,6 +52,12 @@ public class PaymentUI {
 		return total;
 	}
 	
+	
+	/**
+	 * Displays form for adjusting the movie's price for weekday, weekend and holiday.
+	 * Gives result to PaymentController to manipulate the text file database.
+	 * @movieId movieId The movie that will have its price edited.
+	 */
 	public void displayMoviePriceAdjustmentForm(int movieId) {
 		Scanner sc = new Scanner(System.in);
 		

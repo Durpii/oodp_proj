@@ -15,8 +15,14 @@ import ui.PaymentUI;
 import ui.ReviewUI;
 import users.MovieGoer;
 
-public class AppMain {
+/**
+This class consolidates and displays the different UI pieces of the application.
+@author Liu Woon Kit
+@version 1.0
+@since 2022-11-11
+*/
 
+public class AppMain {
 	public static void main(String[] args) {
 		LoginController lc = new LoginController();
 		AdminUi adminUI = new AdminUi();

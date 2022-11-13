@@ -66,7 +66,7 @@ public class ReviewController {
 		
 		overallRating = movie.getOverallRating();
 		System.out.println("Review for " + movie.getTitle());
-		System.out.println("Overall Rating:" + overallRating);
+		//System.out.println("Overall Rating:" + overallRating);
 		
 		File inputFile = new File("reviews.txt");
 		

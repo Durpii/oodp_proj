@@ -150,6 +150,7 @@ public class AdminUi {
 			System.out.println("\t5. Casts");
 			System.out.println("\t6. Show Status");
 			System.out.println("\t7. Age Rating");
+			System.out.println("\t8. Ticket Prices");
 			System.out.println("\tType -1 to quit");
 			
 			choice = sc.nextInt();
@@ -252,6 +253,11 @@ public class AdminUi {
 					
 					movieToEdit.setAgeRating(newRating);
 					break;
+				case 8:
+					sc.nextLine();
+					PaymentUI paymentUi = new PaymentUI();
+					paymentUi.displayMoviePriceAdjustmentForm(movieToEdit.getId());
+					break;
 				default:
 					break;
 			}
@@ -260,11 +266,6 @@ public class AdminUi {
 		
 		//provide movie object to admincontroller to update movies file
 		ac.updateMovie(movieToEdit, movieTitle);
-		
-		sc.nextLine();
-		PaymentUI paymentUi = new PaymentUI();
-		paymentUi.displayMoviePriceAdjustmentForm(movieToEdit.getId());
-		
 		sc.close();
 	}
 	

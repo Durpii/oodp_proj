@@ -22,6 +22,7 @@ import cinema.ShowStatus;
 import cinema.ShowTime;
 import cinema.Ticket;
 import controllers.BookingController;
+import controllers.CinemaController;
 import controllers.PaymentController;
 import users.MovieGoer;
 
@@ -214,13 +215,14 @@ public class BookingUI {
 			return;
 		}
 	}
-	
-	// return cinema ID
-	// TODO Add movie id to parameter
-	public int promptCinemaSelection() {
-		// TODO Fetch cinemas
+
+	public int promptCinemaSelection(int movieId) {
 		ArrayList<Cinema> cinemas = new ArrayList<Cinema>();
-		
+		ArrayList<Integer> cinemaIds = bc.getCinemaIdsWithMovie(movieId);
+		CinemaController cc = new CinemaController();
+		for(int c : cinemaIds) {
+			cinemas.add(cc.getCinemaById(c));
+		}
 		// Display cinemas
 		int choice = 0;
 		while(true) {

@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import cinema.AgeRating;
+import cinema.Cinema;
 import cinema.Movie;
 import cinema.ShowStatus;
 import cinema.ShowTime;
@@ -75,7 +76,6 @@ public class BookingController {
 				file.createNewFile();
 			}
 			out = new PrintWriter(new FileWriter(file));
-2			
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDhhmm");
 			String tId = String.format("%3d", ticket.getCinemaId()).replace(' ', '0') + sdf.format(new Date());
 			sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
@@ -100,6 +100,30 @@ public class BookingController {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public ArrayList<Integer> getCinemaIdsWithMovie(int movieId) {
+		ArrayList<Integer> cinemas = new ArrayList<Integer>();
+		Scanner sc = null;
+		try {
+			sc = new Scanner(new FileInputStream("showTimes.txt"));
+			
+			while (sc.hasNextLine()){
+				String[] data = sc.nextLine().split(SEPARATOR);
+				if(movieId == Integer.valueOf(data[0])) {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh-mm");
+					ShowTime st = new ShowTime(sdf.parse(data[2]));
+					if(st.getDate().after(new Date())) {
+						cinemas.add(Integer.valueOf(data[1]));
+					}
+				}
+			}
+		} catch (FileNotFoundException | ParseException e) {
+			e.printStackTrace();
+		} finally {
+			sc.close();
+		}
+		return cinemas;
 	}
 	
 	public ArrayList<ShowTime> getShowTimes(int cinemaId, int movieId) {
@@ -263,7 +287,7 @@ public class BookingController {
 		float overallRating = Float.valueOf(data[6]);
 		ShowStatus showStatus = ShowStatus.valueOf(data[7]);
 		AgeRating ageRating = AgeRating.valueOf(data[8]);
-		return new Movie(id, title, typeOfMovie, sypnosis, director, casts, overallRating, showStatus, ageRating);
+		return new Movie(id, title, typeOfMovie, sypnosis, director, casts, showStatus, ageRating);
 	}
 	
 	public Ticket parseTicket(String input) {

@@ -12,12 +12,12 @@ public class ShowTime {
 	public ShowTime(Date date) {
 		this.date = date;
 	}
-	
-	public void updateShowTime(Date date) {
-		this.date = date;
+
+	public Date getDate() {
+		return date;
 	}
-	
-	public void updateShowDate(Date newDate) {
-		this.date = newDate;
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

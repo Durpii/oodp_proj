@@ -84,8 +84,4 @@ public class PaymentController {
 			return prices[0];
 		}
 	}
-	
-	public boolean processPayment(double fee, int creditCardNumber) {
-		return true;
-	}
 }

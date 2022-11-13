@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,6 +32,7 @@ import java.util.stream.Stream;
 import cinema.AgeRating;
 import cinema.Movie;
 import cinema.ShowStatus;
+import cinema.ShowTime;
 import cinema.Ticket;
 
 public class BookingController {
@@ -62,7 +64,7 @@ public class BookingController {
 		return movies;
 	}
 	
-	public boolean book(int userId, int cinemId, int movieId, int seatNum, Date dateTime) {
+	public boolean book(Ticket ticket) {
 		//Ticket ticket = new Ticket(userId, cinemId, movieId, seatNum, dateTime);
 		
 		File file = new File("tickets.txt");
@@ -73,12 +75,23 @@ public class BookingController {
 				file.createNewFile();
 			}
 			out = new PrintWriter(new FileWriter(file));
-			StringBuilder str = new StringBuilder(SEPARATOR);
-			str.append(userId);
-			str.append(cinemId);
-			str.append(movieId);
-			str.append(seatNum);
-			str.append(dateTime);
+2			
+			SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDhhmm");
+			String tId = String.format("%3d", ticket.getCinemaId()).replace(' ', '0') + sdf.format(new Date());
+			sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+			String formattedDate = sdf.format(ticket.getDateTime());
+			
+			String str = String.join(SEPARATOR,
+					tId,
+					String.valueOf(ticket.getCinemaId()),
+					String.valueOf(ticket.getMovieId()),
+					ticket.getName(),
+					String.valueOf(ticket.getPhoneNum()),
+					ticket.getEmail(),
+					String.valueOf(ticket.getPrice()),
+					ticket.getSeatNum(),
+					formattedDate);
+
 			out.println(str);
 			out.close();
 			return true;
@@ -89,15 +102,37 @@ public class BookingController {
 		return false;
 	}
 	
+	public ArrayList<ShowTime> getShowTimes(int cinemaId, int movieId) {
+		ArrayList<ShowTime> showTimes = new ArrayList<ShowTime>();
+		Scanner sc = null;
+		try {
+			sc = new Scanner(new FileInputStream("showTimes.txt"));
+			
+			while (sc.hasNextLine()){
+				String[] data = sc.nextLine().split(SEPARATOR);
+				if(movieId == Integer.valueOf(data[0]) && cinemaId == Integer.valueOf(data[1])) {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh-mm");
+					ShowTime st = new ShowTime(sdf.parse(data[2]));
+					if(st.getDate().after(new Date())) {
+						showTimes.add(st);
+					}
+				}
+			}
+		} catch (FileNotFoundException | ParseException e) {
+			e.printStackTrace();
+		} finally {
+			sc.close();
+		}
+		return showTimes;
+	}
+	
 	public String[][] getSeatAvailability(int cimeaID, int movieID, Date showTime) {
 		String[][] seats = new String[0][0];
+		String alphabert = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		
 		Scanner sc = null;
 		int rows, cols;
 		try {
-			// Fetch cinema seats and number of rows
-			//sc = new Scanner(new FileInputStream("cinema.txt"));
-			
 			// TODO
 			int totalSeats = 90;
 			rows = 10;
@@ -111,17 +146,14 @@ public class BookingController {
 				}
 			}
 			
-			// Scan
 			sc = new Scanner(new FileInputStream("tickets.txt"));
-			
 			while (sc.hasNextLine()){
 				Ticket ticket = parseTicket(sc.nextLine());
-	            int seatNumber = ticket.getSeatNum();
-				int x = seatNumber/rows;
-				int y = seatNumber%rows;
+				String[] seat = ticket.getSeatNum().split("[A-Za-z]");
+				int x = alphabert.indexOf(seat[0]);
+				int y = Integer.valueOf(seat[1])-1;
 				seats[x][y] = "X";
 			}
-			
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -175,7 +207,7 @@ public class BookingController {
 		}
 	}
 	
-	public ArrayList<Ticket> getBookingHistory(int userId) {
+	public ArrayList<Ticket> getBookingHistory(String... query) {
 		ArrayList<Ticket> history = new ArrayList<Ticket>();
 		Scanner sc = null;
 		File file = new File("tickets.txt");
@@ -184,7 +216,9 @@ public class BookingController {
 				sc = new Scanner(new FileInputStream(file));
 				while (sc.hasNextLine()){
 					Ticket ticket = parseTicket(sc.nextLine());
-					if(ticket.getUserId() == userId) {
+					;
+					if(Arrays.asList(query).contains(String.valueOf(ticket.getPhoneNum()))
+							|| Arrays.asList(query).contains(ticket.getEmail())) {
 						history.add(ticket);
 					}
 				}
@@ -234,16 +268,20 @@ public class BookingController {
 	
 	public Ticket parseTicket(String input) {
 		String[] data = input.split(SEPARATOR);
-		int userId = Integer.parseInt(data[0]);
-		int cinemId = Integer.parseInt(data[1]);
+		String tId = data[0];
+		int cinemaId = Integer.parseInt(data[1]);
 		int movieId = Integer.parseInt(data[2]);
-		int seatNum = Integer.parseInt(data[3]);
+		String name = data[3];
+		int phoneNum = Integer.parseInt(data[4]);
+		String email = data[5];
+		double price = Double.parseDouble(data[6]);
+		String seatNum = data[7];
 		Date dateTime;
 		try {
-			dateTime = new SimpleDateFormat("dd-MM-yyyy;HH:mm:ss").parse(data[4]);
+			dateTime = new SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(data[8]);
 		} catch (ParseException e) {
 			dateTime = new Date();
 		}
-		return new Ticket(userId, cinemId, movieId, seatNum, dateTime);
+		return new Ticket(tId, cinemaId, movieId, name, phoneNum, email, price, seatNum, dateTime);
 	}
 }

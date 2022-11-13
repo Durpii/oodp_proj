@@ -10,14 +10,16 @@ import controllers.AdminController;
 import controllers.BookingController;
 import controllers.LoginController;
 import ui.AdminUi;
+import ui.BookingUI;
+import users.MovieGoer;
 
 public class AppMain {
 
 	public static void main(String[] args) {
 		//App launching point
-		//LoginController lc = new LoginController();
+		LoginController lc = new LoginController();
 		//lc.adminLogin("Bob", "test2");
-		//lc.userLogin("User1", "password1");
+		MovieGoer movieGoer = lc.userLogin("User1", "password1");
 		
 		AdminController ac = new AdminController();
 		//ac.createMovie(1, "Shrek", "Comedy", "Shrek is love, Shrek is life", "Andrew Adamson / Vicky Jensen", new String[]{"Mike Myers", "Eddie Murphy", "Cameron Diaz", "John Lithgow"}, 5, ShowStatus.END_OF_SHOWING, AgeRating.PG13);
@@ -25,9 +27,9 @@ public class AppMain {
 		//ac.createMovie(3, "Shrek 2", "Comedy", "Shrek two", "John Smith", new String[]{"Mike Myers", "Eddie Murphyey", "Cameron Diaz"}, 5, ShowStatus.COMING_SOON, AgeRating.PG13);
 		//ac.createMovie(4, "Shrek 2", "Duplicate test", "Dupe", "John Smith", new String[]{"Mike Myers", "Eddie Murphyey", "Cameron Diaz"}, 5, ShowStatus.END_OF_SHOWING, AgeRating.PG13);
 		//ac.removeMovie(3);
-		ac.createCinemaShowtime(1, 1, "2022-11-12-20-00");
-		ac.createCinemaShowtime(1, 1, "2022-11-12-21-00");
-		ac.createCinemaShowtime(1, 1, "2022-11-12-22-00");
+		//ac.createCinemaShowtime(1, 1, "2022-11-12-20-00");
+		//ac.createCinemaShowtime(1, 1, "2022-11-12-21-00");
+		//ac.createCinemaShowtime(1, 1, "2022-11-12-22-00");
 		
 		//BookingController bc = new BookingController();
 		
@@ -67,6 +69,8 @@ public class AppMain {
 		
 		//aUi.uiRemoveMovie();
 		//aUi.uiUpdateMovie();
+		BookingUI bUI = new BookingUI();
+		bUI.viewBookingHistory();
 	}
 
 }

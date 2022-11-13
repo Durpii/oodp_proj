@@ -2,7 +2,10 @@ package ui;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
@@ -24,12 +27,11 @@ import users.MovieGoer;
 
 public class BookingUI {
 	BookingController bc = new BookingController();
-	MovieGoer movieGoer;
 	Scanner sc = new Scanner(System.in);
 	String divider = "_".repeat(40).concat("\n\n");
 	
-	public BookingUI(MovieGoer movieGoer) {
-		this.movieGoer = movieGoer;
+	public BookingUI() {
+		
 	}
 	
 	public void searchMovie() {
@@ -53,12 +55,15 @@ public class BookingUI {
 			if(sc.hasNextInt()) {
 				if((choice = sc.nextInt()) <= result.size()) {
 					displayMovieDetails(result.get(choice-1));
-					displayMovieUserOptions(result.get(choice-1));
 				}
 			} else if(sc.next().equals("q")) {
 				break;
 			}
 		};
+	}
+	
+	public void listMovies() {
+		
 	}
 	
 	public void displayMovieDetails(Movie m) {
@@ -82,9 +87,10 @@ public class BookingUI {
 				String.join(", ", m.getCasts()),
 				m.getDirector()
 				);
+		displayMovieOptions(m);
 	}
 	
-	public void displayMovieUserOptions(Movie m) {
+	public void displayMovieOptions(Movie m) {
 		if(m.getShowStatus() == ShowStatus.END_OF_SHOWING) {
 			return;
 		}
@@ -97,29 +103,115 @@ public class BookingUI {
 					+ "Choose an option or enter q to return: ");
 			if(sc.hasNextInt()) {
 				choice = sc.nextInt();
+				if(choice <= 0 && choice >= 3) {
+					continue;
+				}
 				
 				if(m.getShowStatus() == ShowStatus.END_OF_SHOWING || m.getShowStatus() == ShowStatus.COMING_SOON) {
 					System.out.println("\nSorry! Not available at this moment");
 					break;
 				}
-				int cinemaId = 0;//promptCinemaSelection();
-				Date showTime = new Date();//promptShowTimeSelection(cinemaId, m.getId());
+				int cinemaId = 1;//promptCinemaSelection();
+				ShowTime showTime = promptShowTimeSelection(cinemaId, m.getId());
+				if(cinemaId == -1 || showTime == null) {
+					break;
+				}
 				switch(choice) {
 					case 1:
 						viewSeatAvailability(cinemaId, m.getId(), showTime);
 						continue;
 					case 2:
-						PaymentController pc = new PaymentController();
-						pc.calculateFee(null);
-						//PaymentUI pUI = new Payment pUI();
-						//pc.calculateFee(false)
-						//bc.book(movieGoer.getUserId(), cinemaId, , seatNum, dateTime);
-						continue;
+						viewSeatAvailability(cinemaId, m.getId(), showTime);
+						while(true) {
+							System.out.print("\nSelect a seat number: ");
+							if(sc.hasNext()) {
+								String input = sc.next();
+								if(input.equals("q")) {
+									break;
+								} else {
+									String[][] test = bc.getSeatAvailability(m.getId(), cinemaId, showTime.getDate());
+									String alphabert = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+									String[] seat = input.split("[A-Za-z]");
+									try {
+										if(test[alphabert.indexOf(seat[0])][Integer.valueOf(seat[1])-1] == "_") {
+											displayBookingForm(cinemaId, m, showTime, input);
+										} else {
+											System.out.println("Seat is already taken!");
+										}
+									} catch(ArrayIndexOutOfBoundsException e) {
+										System.out.println("Enter a valid seat!");
+									}
+								}
+							} 
+						}
+						break;
 				}
 			}
 			else if(sc.next().equals("q")) {
 				break;
 			}
+		}
+	}
+	
+	public void displayBookingForm(int cinemaId, Movie movie, ShowTime showTime, String seatNum) {
+		int phoneNum = 0;
+		String email = null, name = null;
+		
+		while(true) {
+			System.out.print("Enter your age: ");
+			if(sc.hasNextInt()) {
+				int inputAge = sc.nextInt();
+				int ageRestriction;
+				switch(movie.getAgeRating()) {
+					case NC16:
+						ageRestriction = 16;
+						break;
+					case M18:
+						ageRestriction = 18;
+						break;
+					case R21:
+						ageRestriction = 21;
+						break;
+					default:
+						ageRestriction = 0;
+				}
+				if(inputAge < ageRestriction) {
+					System.out.println("Age restricted! Returning...");
+					return;
+				} else {
+					break;
+				}
+			}
+		}
+		
+		// Consume \n
+		sc.nextLine();
+		System.out.print("Enter your name: ");
+		name = sc.nextLine();
+	
+		System.out.print("Enter your phone number: ");
+		while(true) {
+			phoneNum = sc.nextInt();
+			if(Integer.toString(phoneNum).length() != 8) {
+				System.out.print("Enter valid phone number: ");
+				continue;
+			} else {
+				break;
+			}
+		}
+		
+		sc.nextLine();
+		System.out.print("Enter your email address:");
+		email = sc.nextLine();
+		
+		Ticket ticket = new Ticket(cinemaId, movie.getId(), name, phoneNum, email, 0, seatNum,
+				showTime.getDate());
+		double returnedPrice = 0.0;
+		
+		PaymentUI pUI = new PaymentUI();
+		if((returnedPrice = pUI.displayPaymentForm(ticket)) != -1) {
+			bc.book(ticket);
+			return;
 		}
 	}
 	
@@ -149,34 +241,39 @@ public class BookingUI {
 		return -1;
 	}
 	
-	public Date promptShowTimeSelection(int cinemaId, int movidId) {
-		// TODO Fetch show times 4 days in advance
-		Map<Date, List<ShowTime>> showTimes = null;// = showTimes.stream().collect(Collectors.groupingBy(null, null));
+	public ShowTime promptShowTimeSelection(int cinemaId, int movidId) {
+		Map<Instant, List<ShowTime>> showTimes = bc.getShowTimes(cinemaId, movidId).stream().collect(Collectors.groupingBy(e -> e.getDate().toInstant().truncatedTo(ChronoUnit.DAYS)));
 		int choice = 0;
 		
 		// Select Date
 		while(true) {
-			System.out.print("Available Dates:");
+			System.out.print(divider);
+			System.out.println("Available Dates:");
 			int s = 1;
+			ArrayList<List<ShowTime>> stList = new ArrayList<>();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			for(Date st : showTimes.keySet()) {
-				System.out.printf("\ti) %s", sdf.format(st));
+			Iterator<Entry<Instant, List<ShowTime>>> iterator = showTimes.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByKey())).iterator();
+			while(iterator.hasNext()) {
+				Entry<Instant, List<ShowTime>> e = iterator.next();
+				System.out.printf("\t%d) %s\n", s++, sdf.format(Date.from(e.getKey())));
+				stList.add(e.getValue());
 			}
 			System.out.print("Choose an option or enter q to return: ");
 			if(sc.hasNextInt()) {
 				if((choice = sc.nextInt()) <= showTimes.size()) {
-					Date[] timeSlots = showTimes.keySet().toArray(new Date[showTimes.size()]);
+					List<ShowTime> timeSlots = stList.get(choice-1);
 					while(true) {
-						System.out.print("Available Time Slots:");
+						System.out.print(divider);
+						System.out.println("Available Time Slots:");
 						int t = 1;
 						sdf = new SimpleDateFormat("hh:mm");
-						for(Date ts : timeSlots) {
-							System.out.printf("\ti) %s", sdf.format(ts));
+						for(ShowTime st : timeSlots) {
+							System.out.printf("\t%d) %s\n", t++, sdf.format(st.getDate()));
 						}
 						System.out.print("Choose an option or enter q to return: ");
 						if(sc.hasNextInt()) {
-							if((choice = sc.nextInt()) <= timeSlots.length) {
-								return timeSlots[choice-1];
+							if((choice = sc.nextInt()) <= timeSlots.size()) {
+								return timeSlots.get(choice-1);
 							}
 						} else if(sc.next().equals("q")) {
 							break;
@@ -187,32 +284,32 @@ public class BookingUI {
 				break;
 			}
 		}
-		return new Date();
+		return null;
 	}
 	
 	public void viewBookingHistory() {
-		ArrayList<Ticket> tickets = bc.getBookingHistory(movieGoer.getUserId());
-		
-		tickets.sort(Comparator.comparing(Ticket::getDateTime).reversed());
-		
-		for(Ticket t : tickets) {
+		System.out.print(divider);
+		System.out.println("Enter email address or phone number: ");
+		if(sc.hasNext()) {
+			String query = sc.next();
+			ArrayList<Ticket> tickets = bc.getBookingHistory(query);
+			tickets.sort(Comparator.comparing(Ticket::getDateTime).reversed());
 			
-			Movie m = bc.getMovieById(t.getMovieId());
-			
-			// Fetch Movie name from movie database
-			System.out.println("Movie: " + m.getTitle());			
-			
-			DateFormat formattedDate = new SimpleDateFormat();  
-			formattedDate.format(t.getDateTime());
-			System.out.println("Date: " + formattedDate);
-			
-			System.out.println("Seat Number: " + t.getSeatNum());
+			for(Ticket t : tickets) {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");  
+				System.out.printf(divider
+						+ "TID: " + t.gettId()
+						+ "\nMovie: " + bc.getMovieById(t.getMovieId()).getTitle()
+						+ "\nTime Slot: " + sdf.format(t.getDateTime())
+						+ "\nSeat Number: " + t.getSeatNum()
+						+ "\nPrice: %.2f\n", t.getPrice());
+			}
 		}
 	}
 	
-	public void viewSeatAvailability(int cimeaID, int movieID, Date showTime) {
+	public void viewSeatAvailability(int cimeaID, int movieID, ShowTime showTime) {
 		String alphabert = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String[][] seats = bc.getSeatAvailability(cimeaID, movieID, showTime);
+		String[][] seats = bc.getSeatAvailability(cimeaID, movieID, showTime.getDate());
 		
 		System.out.print(divider);
 		System.out.println("Legends:");

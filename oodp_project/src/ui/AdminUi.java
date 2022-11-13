@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.File;
+
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Arrays;
@@ -13,14 +14,27 @@ import cinema.Movie;
 import cinema.ShowStatus;
 import controllers.AdminController;
 
+/**
+ * This class represents the "UI" for the admin page.
+ * @author Lim Zi Hao
+ * @version 1.0
+ * @since 2022-11-11
+ */
+
 public class AdminUi {
 	
+	/**
+	 * Declares an AdminController object to pass functions to the "backend"
+	 */
 	AdminController ac = new AdminController();
 	
 	public AdminUi() {
 		
 	}
 	
+	/**
+	 * Creates a new movie from user input and passes it into the AdminController class to add to file
+	 */
 	public void uiCreateMovie() {
 		Scanner sc = new Scanner(System.in);
 		int noOfCasts;
@@ -113,6 +127,9 @@ public class AdminUi {
 		sc.close();
 	}
 	
+	/**
+	 * Gets title from user input and removes movie based on title
+	 */
 	public void uiRemoveMovie() {
 		Scanner sc = new Scanner(System.in);
 		
@@ -123,6 +140,11 @@ public class AdminUi {
 		ac.removeMovie(movieTitle);
 	}
 	
+	/**
+	 * Get title of movie from user input and chekcs if movie exists
+	 * If movie exists, passes it into a movie object and asks user what features they would like to edit
+	 * If movie does not exist, return
+	 */
 	public void uiUpdateMovie() {
 		Scanner sc = new Scanner(System.in);
 		//Check if movie title exists first
@@ -269,6 +291,9 @@ public class AdminUi {
 		sc.close();
 	}
 	
+	/**
+	 * Creates cinema showtime based on user input
+	 */
 	public void uiCreateCinemaShowtime() {
 		Scanner sc = new Scanner(System.in);
 		
@@ -288,6 +313,9 @@ public class AdminUi {
 		ac.createCinemaShowtime(movieId, cinemaId, showTime);
 	}
 	
+	/**
+	 * Removes cinema showtime based on user input
+	 */
 	public void uiRemoveCinemaShowtimes() {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter movieId: ");
@@ -323,10 +351,17 @@ public class AdminUi {
 		ac.removeCinemaShowtime(movieId, cinemaId, showTimes[showTimeChoice]);
 	}
 	
+	/**
+	 * Function to update cinema showtimes (incomplete)
+	 */
 	public void uiUpdateCinemaShowtimes() {
 		//incomplete function
 	}
 	
+	/**
+	 * Separated from uiUpdateMovie() to update casts
+	 * @param movie
+	 */
 	private void updateCasts(Movie movie) {
 		int castChoice = 0;
 		Scanner sc = new Scanner(System.in);

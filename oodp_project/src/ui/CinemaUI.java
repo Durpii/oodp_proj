@@ -6,16 +6,42 @@ import cinema.CinemaClass;
 import cinema.Cineplex;
 import controllers.CinemaController;
 
+/**
+ * The UI for the Cinema.
+ * @author	Qwek Jin Kee
+ * @version	1.0
+ * @since	2022-11-11
+ */
 public class CinemaUI {
 
+	/**
+	 * The class of the Cinema.
+	 * 1 will be Regular.
+	 * 2 will be Platinum.
+	 */
 	private int cineClass = 0;
+	
+	/**
+	 * The Cineplex of this Cinema.
+	 */
 	private Cineplex cineplex;
+	
+	/**
+	 * Creates a new CinemaController.
+	 */
 	CinemaController cc = new CinemaController();
 	
+	/**
+	 * Creates a new CinemaUI with the given Cineplex.
+	 * @param c	This CinemaUI's Cineplex.
+	 */
 	public CinemaUI(Cineplex c) {
 		this.cineplex = c;
 	}
 	
+	/**
+	 * Adds a Cinema to the this Cineplex.
+	 */
 	public void addCinema() {
 		try (Scanner sc = new Scanner(System.in)) {
 			do {

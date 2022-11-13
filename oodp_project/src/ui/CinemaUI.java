@@ -47,7 +47,7 @@ public class CinemaUI {
 			do {
 				System.out.print("Enter type of cinema (1 for Regular, 2 for Platinum): ");
 				cineClass = sc.nextInt();
-				if(cineClass != 1 || cineClass != 2) {
+				if(cineClass != 1 && cineClass != 2) {
 					System.out.print("Please select a valid option! (1 or 2)");
 				}
 				else {

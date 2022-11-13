@@ -20,9 +20,9 @@ public class ReviewUI {
 	public void addReview() {
 		try (Scanner sc = new Scanner(System.in)) {
 			System.out.print("Please enter your name: ");
-			reviewerName = sc.next();
+			reviewerName = sc.nextLine();
 			System.out.print("Please enter your review: ");
-			review = sc.next();
+			review = sc.nextLine();
 			System.out.print("Please enter your rating (1 ~ 5): ");
 			reviewRating = sc.nextInt();	
 		}

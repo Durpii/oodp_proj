@@ -124,7 +124,7 @@ public class BookingUI {
 				}
 				
 				if(m.getShowStatus() == ShowStatus.END_OF_SHOWING || m.getShowStatus() == ShowStatus.COMING_SOON) {
-					System.out.println("\nSorry! Not available at this moment");
+					System.out.println("\nSorry! Not available");
 					break;
 				}
 				int cinemaId = promptCinemaSelection(m.getId());

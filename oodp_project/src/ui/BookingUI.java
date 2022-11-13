@@ -17,12 +17,14 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import cinema.Cinema;
+import cinema.Cineplex;
 import cinema.Movie;
 import cinema.ShowStatus;
 import cinema.ShowTime;
 import cinema.Ticket;
 import controllers.BookingController;
 import controllers.CinemaController;
+import controllers.CineplexController;
 import controllers.PaymentController;
 import users.MovieGoer;
 
@@ -112,7 +114,7 @@ public class BookingUI {
 					System.out.println("\nSorry! Not available at this moment");
 					break;
 				}
-				int cinemaId = 1;//promptCinemaSelection();
+				int cinemaId = promptCinemaSelection(m.getId());
 				ShowTime showTime = promptShowTimeSelection(cinemaId, m.getId());
 				if(cinemaId == -1 || showTime == null) {
 					break;
@@ -217,24 +219,24 @@ public class BookingUI {
 	}
 
 	public int promptCinemaSelection(int movieId) {
-		ArrayList<Cinema> cinemas = new ArrayList<Cinema>();
+		ArrayList<Cineplex> cineplex = new ArrayList<Cineplex>();
 		ArrayList<Integer> cinemaIds = bc.getCinemaIdsWithMovie(movieId);
-		CinemaController cc = new CinemaController();
+		CineplexController cineplexController = new CineplexController();
 		for(int c : cinemaIds) {
-			cinemas.add(cc.getCinemaById(c));
+			cineplex.add(cineplexController.getCineplexById(c));
 		}
 		// Display cinemas
 		int choice = 0;
 		while(true) {
 			System.out.println("\nSelect Cinema:");
 			int i = 1;
-			for(Cinema c : cinemas) {
-				System.out.printf("\t%d) %s" , i++, c.getCinemaName());
+			for(Cineplex c : cineplex) {
+				System.out.printf("\t%d) %s\n" , i++, c.getCineplexName());
 			}
 			System.out.print("Choose an option or enter q to return: ");
 			if(sc.hasNextInt()) {
-				if((choice = sc.nextInt()) <= cinemas.size()) {
-					return cinemas.get(choice-1).getCinemaID();
+				if((choice = sc.nextInt()) <= cineplex.size()) {
+					return cineplex.get(choice-1).getCineplexID();
 				}
 			} else if(sc.next().equals("q")) {
 				break;

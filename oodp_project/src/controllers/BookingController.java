@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 import cinema.AgeRating;
 import cinema.Cinema;
 import cinema.Movie;
+import cinema.MovieType;
 import cinema.ShowStatus;
 import cinema.ShowTime;
 import cinema.Ticket;
@@ -75,7 +76,7 @@ public class BookingController {
 			if(!file.exists()) {
 				file.createNewFile();
 			}
-			out = new PrintWriter(new FileWriter(file));
+			out = new PrintWriter(new FileWriter((file), true));
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDhhmm");
 			String tId = String.format("%3d", ticket.getCinemaId()).replace(' ', '0') + sdf.format(new Date());
 			sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
@@ -279,7 +280,7 @@ public class BookingController {
 	public Movie parseMovie(String input) {
 		String[] data = input.split(SEPARATOR);
 		int id = Integer.valueOf(data[0].split(":")[1]);
-		String title = data[1];
+		String title = data[1];		
 		String typeOfMovie = data[2];
 		String sypnosis = data[3];
 		String director = data[4];

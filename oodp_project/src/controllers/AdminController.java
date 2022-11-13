@@ -39,8 +39,7 @@ public class AdminController {
 		
 		//create new movie object
 		Movie m = new Movie(id, title, typeOfMovie, 
-				synopsis, director, casts,
-				overallRating, showStatus, ageRating);
+				synopsis, director, casts, showStatus, ageRating);
 		
 		
 		//write movie object to file
@@ -198,7 +197,7 @@ public class AdminController {
 				//check if line has movie
 				if (dataTitle.equals(title)) {
 					Movie m = new Movie(dataId, dataTitle, dataTypeOfMovie, 
-							dataSynopsis, dataDirector, dataCasts, dataOverallRating,
+							dataSynopsis, dataDirector, dataCasts,
 							dataShowStatus, dataAgeRating);
 					reader.close();
 					System.out.println("Movie found!");

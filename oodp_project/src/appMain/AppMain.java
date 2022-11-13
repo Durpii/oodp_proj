@@ -70,7 +70,7 @@ public class AppMain {
 		//aUi.uiRemoveMovie();
 		//aUi.uiUpdateMovie();
 		BookingUI bUI = new BookingUI();
-		bUI.viewBookingHistory();
+		bUI.viewBookingHistory();;
 	}
 
 }

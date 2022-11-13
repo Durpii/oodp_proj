@@ -23,7 +23,7 @@ public class Movie {
 	}
 
 	public Movie(int id, String title, String typeOfMovie, String synopsis, String director, String[] casts,
-			ShowStatus showStatus, AgeRating ageRating, MovieType movieType) {
+			ShowStatus showStatus, AgeRating ageRating) {
 		super();
 		this.id = id;
 		this.title = title;

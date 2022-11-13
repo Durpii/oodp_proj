@@ -7,9 +7,10 @@ public class Movie {
 	private int id;
 	private String title, typeOfMovie, synopsis, director;
 	private String[] casts;
-	private float overallRating = 0;
+	private float overallRating = -1;
 	private ShowStatus showStatus;
 	private AgeRating ageRating;
+	private MovieType movieType;
 	
 	ArrayList<Review> reviews = new ArrayList<Review>();
 	
@@ -22,7 +23,7 @@ public class Movie {
 	}
 
 	public Movie(int id, String title, String typeOfMovie, String synopsis, String director, String[] casts,
-			ShowStatus showStatus, AgeRating ageRating) {
+			ShowStatus showStatus, AgeRating ageRating, MovieType movieType) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -32,6 +33,15 @@ public class Movie {
 		this.casts = casts;
 		this.showStatus = showStatus;
 		this.ageRating = ageRating;
+		this.movieType = movieType;
+	}
+
+	public MovieType getMovieType() {
+		return movieType;
+	}
+
+	public void setMovieType(MovieType movieType) {
+		this.movieType = movieType;
 	}
 
 	public void setId(int id) {
@@ -122,7 +132,7 @@ public class Movie {
 		reviews.add(review);
 		
 		if(reviews.size() <= 1) {
-			overallRating = 0;
+			overallRating = -1;
 		}
 		else {
 			updateOverallRating();
